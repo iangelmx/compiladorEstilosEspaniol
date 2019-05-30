@@ -1,0 +1,53 @@
+#include <stdlib.h> /* malloc. */
+#include <string.h> /* strlen. */
+#include <math.h>
+#include <stdio.h>
+
+
+
+#ifndef __TABLA_H__
+#define __TABLA_H__
+/* Function type.  */
+typedef double (*func_t) (double);
+struct init
+{
+  char const *fname;
+  double (*fnct) (double);
+};
+
+struct valorVar{
+    char *valorStr;
+    int valorInt;
+}
+typedef struct symrec value;
+
+/* Data type for links in the chain of symbols.  */
+struct symrec
+{
+  char *name;  /* name of symbol */
+  int type;    /* type of symbol: either VAR or FNCT */
+  value datos; 
+  struct symrec *next;  /* link field */
+};
+
+typedef struct symrec symrec;
+
+/* The symbol table: a chain of 'struct symrec'.  */
+extern symrec *sym_table;
+//extern symrec *FNCT;
+
+
+////>>>
+extern int yydebug;
+//extern YYSTYPE yylval;
+
+symrec *putsym (char const *, int);
+symrec *getsym (char const *);
+
+
+
+
+/* Put arithmetic functions in table.  */
+void
+init_table (void);
+#endif

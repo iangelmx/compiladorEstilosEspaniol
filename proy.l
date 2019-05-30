@@ -4,8 +4,6 @@ H			[a-fA-F0-9]+
 V   			(L+|D*)
 ES			[:space:]
 
-
-
 %{
 #include <stdio.h>
 #include "proy.tab.h"
