@@ -19,14 +19,14 @@ struct valorVar{
     char *valorStr;
     int valorInt;
 }
-typedef struct symrec value;
+typedef struct symrec datos;
 
 /* Data type for links in the chain of symbols.  */
 struct symrec
 {
   char *name;  /* name of symbol */
   int type;    /* type of symbol: either VAR or FNCT */
-  value datos; 
+  datos value; 
   struct symrec *next;  /* link field */
 };
 
