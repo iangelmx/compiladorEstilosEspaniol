@@ -18,7 +18,7 @@ ES			[:space:]
 [0-9]+                  { yylval.NUM = atoi(yytext); return NUM;  }
 \n                      { return '\n'; }
 [ ]
-[-n+*/^=(){}]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
+[-n+*/^=(){}.]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
 [;]						{printf("Vi un ;\n");	return ';';}
 [|]						{return '|';}
 [!]						{return '!';}
@@ -35,7 +35,7 @@ ES			[:space:]
 
 
 "direccion"		{ return(DIRECCION); }
-"fuente"		{  return(FUENTE); }
+"fuente"		{ printf("Retorna fuente: %s\n", yytext); return(FUENTE); }
 "tamaNHo"		{  return(TAMANHO); }
 "subrayado"		{  return(SUBRAYADO); }
 "negritas"		{  return(NEGRITAS); }
@@ -55,7 +55,7 @@ ES			[:space:]
 "visible"		{  return(VISIBLE); }
 "color"			{  return(COLOR); }
 
-"selector"		{ return(SELECTOR); }
+"asociaSelector"	{ return (SELECTOR); }
 "agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
@@ -70,16 +70,25 @@ ES			[:space:]
 "mientras"		{  return(MIENTRAS); }
 
 
-\"(\\.|[^\\"])*\"	{ yylval.CADENA = yytext; return(CADENA);}
+\"(\\.|[^\\"])*\"	{ printf("Retorna la cadena: >%s<\n", yytext); yylval.CADENA = yytext; return(CADENA);}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
-[a-zA-Z]+			{ yylval.identificador=yytext; printf("Vi un id: %s \n", yytext);
-							return identificador;}
-
+{L}+			{ printf("Vi un id: ->%s<- \n", yytext);
+					symrec *s = getsym(yytext);
+					if(s){
+						yylval.identificador = s;
+						//printf("Retorna identificador symrec\n");
+						return identificador;
+					}
+					else{
+						yylval.id=yytext;
+						printf("Retorna id char* \n");
+						return id;
+					}
+				}
 "\""			{  return('"'); }
 [,]			{  return(','); }
-">"			{  return( *yytext); }
-"|"			{  return('|'); }
-[.]			{ printf("retorna: '.' ->%s<-\n", yytext);return('.');}
+[>]			{  return( *yytext); }
+
 %%
 
 int indice = 0;

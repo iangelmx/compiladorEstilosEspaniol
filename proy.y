@@ -7,6 +7,13 @@ void yyerror (char const *error) {printf("%s\t<- Error\n\n",error);}
 void
 init_table (void);
 symrec *s;
+int tipo;
+char *strType;
+char *strValor;
+char *pre;
+int indice;
+int aux;
+int auxiliarConteo;
 %}
 
 %define api.value.type union
@@ -20,12 +27,16 @@ symrec *s;
 
 %token <int> TAMANHO BORDE ANCHO ALTO MARGEN TIPODATO D
 %token <int> SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS VISIBLE
-%token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA identificador SELECTOR
+%token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA SELECTOR nombreId
+%token <symrec*> identificador
+%token <char*> id
 
 %token <double>  NUM         								/* Simple double precision number.  */
 %token <symrec*> VAR			     /* Symbol table pointer: variable and function.  */
 %type  <symrec*>  exp
 %type <symrec*>	declaracion
+%type <symrec*> especificacion
+
 
 
 
@@ -52,21 +63,37 @@ line:
 exp:
 declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));}
 |	instruccion ';' 				{printf("B_Vi una INSTR...\n\n");}
-| error  '\n' { yyerrok;               }
 ;
 
 declaracion:
-TIPODATO identificador				{  
-														s = creaVariable($2, $1); 
-														$$ = s;
-														printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
-}
+TIPODATO id	{  
+							s = creaVariable($2, $1); 
+							$$ = s;
+							printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
+						}
 ;
 
 instruccion:
 colocacion
+|asociacion
 |eliminacion
 |funciones
+;
+
+asociacion:
+identificador '.' SELECTOR '=' CADENA {
+	printf("What?");
+	printf("B_Cadena detectada: %s\n", $5);
+	printf("B_Se va a buscar: %s\n", $1->name);
+	s = getsym( $1->name );
+	if(s){
+		s->selector = $5;
+		printf("%s{}\n", $5);
+	}
+	else{
+		printf("Variable no declarada :/"); yyerrok;
+	}
+}
 ;
 
 funciones:
@@ -79,15 +106,37 @@ identificador QUITAATRIBUTO '(' especificacion ')'
 ;
 
 colocacion:
-identificador '.' AGREGAATRIBUTO '(' especificacion ')'	{printf("B_Detecté una oper agregaatrr");}
+identificador '.' AGREGAATRIBUTO '(' especificacion ')'	{
+	printf("B_Detecté una oper agregaatrr\n");
+		s = getsym($1->name);
+		printf("B_Va a buscar en colocación a: %s\n", $1->name);
+		if(s){
+			if(s->type == TEXTO){
+				if( $5->type == TEXTO ){
+					s = $5;
+					printf("asdf");
+				}
+			}
+			printf("Nuevo valor de s: %s", s->value.valFuente);
+		}
+		else{
+			printf("Variable no declarada"); yyerrok;
+		}
+	}
 |identificador '.' MODIFICAATRIBUTO '(' especificacion ')'
 |identificador '.' CLONAATRIBUTO '(' especificacion ')'
 ;
 
-especificacion:
-DIRECCION '=' CADENA		{printf("Vi Direccion y cadena: %s\n", $3);}
-|FUENTE '=' D
-|TAMANHO '=' D
+especificacion: 
+DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
+|FUENTE '=' CADENA						{ 
+																sprintf(pre, %d, auxiliarConteo);
+																s = putsym( TEXTO, pre );
+																cleanStruct( s );
+																strcpy (s->value.valFuente,$5);
+																$$ = s;
+															}
+|TAMANHO '=' D								{  }
 |SUBRAYADO
 |NEGRITAS
 |CURSIVAS 

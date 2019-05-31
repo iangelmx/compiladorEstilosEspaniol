@@ -8,9 +8,16 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->name = (char *) malloc (strlen (sym_name) + 1);
   strcpy (ptr->name,sym_name);
   ptr->type = sym_type;
-  ptr->compatible = 
+  ptr->compatible = 0;
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   ptr->value.valorStr = ""; /* Set value to 0 even if fctn.  */
+  ptr->value.valFuente = "";
+  ptr->value.valTamanho = 0;
+  ptr->value.valBoolSubrayado =0;
+  ptr->value.valBoolNegrita = 0;
+  ptr->value.valBoolCursiva = 0;
+  ptr->value.valBoolTachado = 0;
+  ptr->value.valBoolMayusculas= 0; 
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -23,7 +30,7 @@ symrec *getsym (char const *sym_name)
     if (strcmp (ptr->name, sym_name) == 0)
       return ptr;
     else
-      printf("Este no es: %s", ptr->name);
+      printf("Este no es: %s\n", ptr->name);
   return 0;
 }
 
@@ -71,4 +78,35 @@ symrec *creaVariable(char const *sym_name, int tipo ){
   return s;
 
 }
+void cleanStruct( symrec *s ){
+  ptr = s;
+  strcpy( ptr->name, "" );
+  ptr->compatible = 0;
+  ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
+  strcpy( ptr->value.valorStr, "" );
+  strcpy( ptr->value.valFuente, "" );
+  ptr->value.valTamanho = 0;
+  ptr->value.valBoolSubrayado =0;
+  ptr->value.valBoolNegrita = 0;
+  ptr->value.valBoolCursiva = 0;
+  ptr->value.valBoolTachado = 0;
+  ptr->value.valBoolMayusculas= 0; 
+  ptr->next = NULL;
+}
 
+
+void cleanStruct( symrec *s ){
+  ptr = s;
+  strcpy( ptr->name, "" );
+  ptr->compatible = 0;
+  ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
+  strcpy( ptr->value.valorStr, "" );
+  strcpy( ptr->value.valFuente, "" );
+  ptr->value.valTamanho = 0;
+  ptr->value.valBoolSubrayado =0;
+  ptr->value.valBoolNegrita = 0;
+  ptr->value.valBoolCursiva = 0;
+  ptr->value.valBoolTachado = 0;
+  ptr->value.valBoolMayusculas= 0; 
+  ptr->next = NULL;
+}

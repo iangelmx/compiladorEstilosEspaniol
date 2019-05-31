@@ -20,6 +20,13 @@ struct valorVar{
     char *valorStr;
     int valorInt;
     func_t fnctptr;  /* value of a FNCT */
+    char *valFuente;
+    int valTamanho;
+    int valBoolSubrayado;
+    int valBoolNegrita;
+    int valBoolCursiva;
+    int valBoolTachado;
+    int valBoolMayusculas;    
 };
 typedef struct valorVar datos;
 
@@ -28,7 +35,8 @@ struct symrec
 {
   char *name;  /* name of symbol */
   int type;    /* type of symbol: either VAR or FNCT */
-  int compatible;
+  char *compatible;
+  char *selector;
   datos value; 
   struct symrec *next;  /* link field */
 };
@@ -46,6 +54,7 @@ extern int yydebug;
 extern const char *type_names[];
 extern int check_type(void);
 extern symrec *creaVariable(char const *sym_name, int tipo );
+extern symrec *validaExistencia(char const *sym_name);
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);
