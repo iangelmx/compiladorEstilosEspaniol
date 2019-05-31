@@ -1,0 +1,6 @@
+lex.yy.c
+lex.yy.o
+proy.tab.c
+proy.tab.h
+proy.tab.o
+tabla.o
