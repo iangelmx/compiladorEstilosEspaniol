@@ -1,5 +1,6 @@
 #include <stdlib.h> /* malloc. */
 #include <string.h> /* strlen. */
+#include <stdio.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -18,8 +19,8 @@ struct init
 struct valorVar{
     char *valorStr;
     int valorInt;
-}
-typedef struct symrec datos;
+};
+typedef struct valorVar datos;
 
 /* Data type for links in the chain of symbols.  */
 struct symrec

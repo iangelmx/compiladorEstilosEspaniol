@@ -1,16 +1,43 @@
-%define api.value.type union /* Generate YYSTYPE from these types:  */
+%{
+#include <stdio.h>  /* For printf, etc. */
+#include <math.h>   /* For pow, used in the grammar.  */
+#include "tabla.h"   /* Contains definition of 'symrec'.  */
+int yylex (void);
+void yyerror (char const *error) {printf("%s\t<- Error\n\n",error);}
+void
+init_table (void);
+%}
+
+%union{
+	int entero;
+	double decimal;
+	char* cadena;
+	struct variable{
+	   int entero;
+	   double db;
+	   char* cadena;
+	   char* nombre;
+	   char* tipo; 
+	} variable;
+}
+
 
 %token TEXTO CAJA TABLA LISTA HIPERVINCULO IMAGEN EFECTO
-%token DIRECCION FUENTE TAMAÑO SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS ANCHO ALTO BORDE FONDO POSICION ALINEACION TIPO VIÑETA COLORVISTO RELLENO MARGEN VISIBLE COLOR
+%token DIRECCION FUENTE TAMANHO SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS ANCHO ALTO BORDE FONDO POSICION ALINEACION TIPO VINHETA COLORVISTO RELLENO MARGEN VISIBLE COLOR
 %token TODOS REPITE PARACADA SI NO ES MIENTRAS
 %token AGREGAATRIBUTO CLONAATRIBUTO MODIFICAATRIBUTO QUITAATRIBUTO
 %token EQ_COMP MAYEQ_COMP MENEQ_COMP
+%token TIPODATO NUM identificador COMENTARIO
+%token CADENA
+%token D H
+%type <float> exp
 
 %precedence '='
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */
 %% /* The grammar follows.  */
+
 input:
 %empty
 | input line
@@ -18,7 +45,7 @@ input:
 
 line:
 '\n'
-| exp '\n'   { printf ("R = %.10g ;\n", $1); }
+| exp '\n'   { printf ("R = %f ;\n", $1); }
 | error '\n' { yyerrok;                }
 ;
 
@@ -29,11 +56,11 @@ exp
 ;
 
 declaracion
-:tipodato secuenciaIds 
+:TIPODATO secuenciaIds 
 ;
 
 secuenciaIds
-:identificador			{$$ =$}
+:identificador			
 |secuenciaIds identificador
 ;
 
@@ -44,7 +71,7 @@ instruccion
 ;
 
 funciones
-:REPITE '(' instruccion ',' D ')'
+:REPITE NUM '{' instruccion '}'
 
 
 eliminacion
@@ -61,7 +88,7 @@ colocacion
 especificacion 
 :DIRECCION '=' CADENA
 |FUENTE '=' D
-|TAMAÑO '=' D
+|TAMANHO '=' D
 |SUBRAYADO
 |NEGRITAS
 |CURSIVAS 
@@ -74,7 +101,7 @@ especificacion
 |POSICION '=' CADENA 
 |ALINEACION '=' CADENA
 |TIPO '='CADENA
-|VIÑETA '=' CADENA
+|VINHETA '=' CADENA
 |COLORVISTO '=' H 
 |MARGEN '=' D
 |VISIBLE
