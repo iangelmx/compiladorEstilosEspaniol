@@ -30,63 +30,65 @@ init_table (void);
 %token TIPODATO NUM identificador COMENTARIO
 %token CADENA
 %token D H
-%type <float> exp
+
+%type <cadena> identificador
+
 
 %precedence '='
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */
+%right '^'      /* exponentiation */
 %% /* The grammar follows.  */
 
-input:
-%empty
-| input line
+programa:
+listaSentencias
 ;
 
-line:
-'\n'
-| exp '\n'   { printf ("R = %f ;\n", $1); }
-| error '\n' { yyerrok;                }
+listaSentencias:
+|	sentencia
+|	listaSentencias	sentencia
 ;
 
-
-exp
-:declaracion ';'
-|instruccion ';'
+sentencia:
+'\n'														
+|	declaracion ';' '\n'					{printf("B_Vi una declaración UP\n\n");}
+|	instruccion ';' '\n'				{printf("B_Vi una INSTR...\n\n");}
+| error  '\n' { yyerrok;               }
 ;
 
-declaracion
-:TIPODATO secuenciaIds 
+declaracion:
+TIPODATO secuenciaIds 				{printf("B_Vi una declaración Down\n");}
 ;
 
-secuenciaIds
-:identificador			
-|secuenciaIds identificador
+secuenciaIds:
+identificador											{ printf("B_Vi un solo ID %s\n", $1); }
+|secuenciaIds ',' identificador		{printf("B_Vi una seq Ids\n");}
 ;
 
-instruccion
-:colocacion
+instruccion:
+colocacion
 |eliminacion
 |funciones
 ;
 
-funciones
-:REPITE NUM '{' instruccion '}'
+funciones:
+REPITE NUM '{' instruccion '}'
+;
 
-
-eliminacion
-:identificador QUITAATRIBUTO '(' especificacion ')'
+eliminacion:
+identificador QUITAATRIBUTO '(' especificacion ')'
 |identificador QUITAATRIBUTO '(' TODOS ')'
 ;
 
-colocacion
-:identificador '.' AGREGAATRIBUTO '(' especificacion ')'
+colocacion:
+identificador '.' AGREGAATRIBUTO '(' especificacion ')'
 |identificador '.' MODIFICAATRIBUTO '(' especificacion ')'
 |identificador '.' CLONAATRIBUTO '(' especificacion ')'
 ;
 
-especificacion 
-:DIRECCION '=' CADENA
+especificacion:
+DIRECCION '=' CADENA
 |FUENTE '=' D
 |TAMANHO '=' D
 |SUBRAYADO

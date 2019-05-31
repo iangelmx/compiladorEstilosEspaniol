@@ -25,7 +25,7 @@ symrec *getsym (char const *sym_name)
   return 0;
 }
 
-/*struct init const arith_fncts[] =
+struct init const arith_fncts[] =
 {
   { "atan", atan },
   { "cos",  cos  },
@@ -34,9 +34,18 @@ symrec *getsym (char const *sym_name)
   { "seno",  sin  },
   { "sqrt", sqrt },
   { 0, 0 },
-};*/
+};
 
-/*
+const char *type_names[]={
+  "texto","caja","tabla","lista","hipervinculo","imagen","efecto","direccion","fuente",
+  "tamaNHo","subrayado","negritas","cursivas","tachado","mayusculas","ancho","alto",
+  "borde","fondo","posicion","alineacion","tipo","viNHeta","colorVisto",
+  "margen","visible","color","agregaAtributo","clonaAtributo","modificaAtributo","quitaAtributo",
+  "todos","repite","paraCada","si","no","es","mientras"
+};
+
+
+
 void
 init_table (void){
   int i;
@@ -45,5 +54,5 @@ init_table (void){
     //symrec *ptr = putsym (arith_fncts[i].fname, 260);
     ptr->value.fnctptr = arith_fncts[i].fnct;
   }
-}*/
+}
 

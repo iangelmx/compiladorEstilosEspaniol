@@ -3,6 +3,7 @@
 #include <math.h>
 #include "tabla.h"
 #include "proy.tab.h"
+int valor = 0;
 %}
 
 D			[0-9]+
@@ -13,9 +14,17 @@ ES			[:space:]
 
 %%
 	
+[0-9]+"."[0-9]+         { yylval.decimal = atof(yytext); return NUM;  }
+[0-9]+                  { yylval.entero = atoi(yytext); return NUM;  }
+\n                      { return '\n'; }
+[ ]
+[-n+*/^=(){}]                { printf("retorna: %s \n", yytext); return *yytext;  }
+[;]						{printf("Vi un ;\n");	return ',';}
+[|]						{return '|';}
+[!]						{return '!';}
+[&]						{return '&';}
 
-
-"texto"			{ yylval.cadena = yytext; return(TIPODATO); } 
+"texto"			{ yylval.cadena = yytext; printf("Vi texto: %d", TIPODATO); return(TIPODATO); } 
 "caja"			{ yylval.variable.cadena = yytext; return(TIPODATO);  return(CAJA); }
 "tabla"			{ yylval.cadena = yytext; return(TIPODATO);  return(TABLA); }
 "lista"			{  return(LISTA); }
@@ -63,41 +72,29 @@ ES			[:space:]
 
 \"(\\.|[^\\"])*\"	{ return(CADENA);}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
+[a-zA-Z]+			{ yylval.cadena = yytext; printf("Vi un id: %s \n", yytext); return identificador;}
 
 "\""			{  return('"'); }
-","			{  return(','); }
-"."			{  return('.'); }
-"&"			{  return('&'); }
-"!"			{  return('!'); }
-"-"			{  return('-'); }
-"+"			{  return('+'); }
-"*"			{  return('/'); }
-"/"			{  return('/'); }
-"%"			{  return('%'); }
-"<"			{  return('<'); }
-">"			{  return('>'); }
+[,]			{  return(','); }
+">"			{  return( *yytext); }
 "|"			{  return('|'); }
-"?"			{  return('?'); }
-"="			{  return('='); }
-"=="			{  return(EQ_COMP); /*TOMAR NOTA DEL NOMBRE*/}
-">="			{  return(MAYEQ_COMP); /*TOMAR NOTA DEL NOMBRE*/}
-"<="			{  return(MENEQ_COMP);/*TOMAR NOTA DEL NOMBRE*/ }
-";"			{  return(';'); }
-
-		
-
 %%
-void main()
-	{
-	
-	
+
+int indice = 0;
+
+int check_type(){
+	for(indice=0; indice < 38; indice++){
+		if(! strcmp(yytext, type_names[indice]) ){
+			return( TIPODATO );
+		}
 	}
-
-
-
-
-
-
-
-
-
+/*
+* pseudo code --- this is what it should check
+*
+*	if (yytext == type_name)
+*		return(TYPE_NAME);
+*
+*	return(identificador);
+*/
+	return(identificador);
+}

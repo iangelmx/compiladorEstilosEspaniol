@@ -19,6 +19,7 @@ struct init
 struct valorVar{
     char *valorStr;
     int valorInt;
+    func_t fnctptr;  /* value of a FNCT */
 };
 typedef struct valorVar datos;
 
@@ -33,6 +34,7 @@ struct symrec
 
 typedef struct symrec symrec;
 
+
 /* The symbol table: a chain of 'struct symrec'.  */
 extern symrec *sym_table;
 //extern symrec *FNCT;
@@ -40,6 +42,8 @@ extern symrec *sym_table;
 
 ////>>>
 extern int yydebug;
+extern const char *type_names[];
+extern int check_type(void);
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);
