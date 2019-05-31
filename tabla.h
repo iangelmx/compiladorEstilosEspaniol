@@ -28,6 +28,7 @@ struct symrec
 {
   char *name;  /* name of symbol */
   int type;    /* type of symbol: either VAR or FNCT */
+  int compatible;
   datos value; 
   struct symrec *next;  /* link field */
 };

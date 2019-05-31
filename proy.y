@@ -6,32 +6,27 @@ int yylex (void);
 void yyerror (char const *error) {printf("%s\t<- Error\n\n",error);}
 void
 init_table (void);
+symrec *s;
 %}
 
-%union{
-	int entero;
-	double decimal;
-	char* cadena;
-	struct variable{
-	   int entero;
-	   double db;
-	   char* cadena;
-	   char* nombre;
-	   char* tipo; 
-	} variable;
-}
+%define api.value.type union
 
-
-%token TEXTO CAJA TABLA LISTA HIPERVINCULO IMAGEN EFECTO
-%token DIRECCION FUENTE TAMANHO SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS ANCHO ALTO BORDE FONDO POSICION ALINEACION TIPO VINHETA COLORVISTO RELLENO MARGEN VISIBLE COLOR
+%token <symrec*> TEXTO CAJA TABLA LISTA HIPERVINCULO IMAGEN EFECTO
+%token DIRECCION FUENTE VINHETA 
 %token TODOS REPITE PARACADA SI NO ES MIENTRAS
 %token AGREGAATRIBUTO CLONAATRIBUTO MODIFICAATRIBUTO QUITAATRIBUTO
 %token EQ_COMP MAYEQ_COMP MENEQ_COMP
-%token TIPODATO NUM identificador COMENTARIO
-%token CADENA
-%token D H
+%token H COMENTARIO
 
-%type <cadena> identificador
+%token <int> TAMANHO BORDE ANCHO ALTO MARGEN TIPODATO D
+%token <int> SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS VISIBLE
+%token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA identificador SELECTOR
+
+%token <double>  NUM         								/* Simple double precision number.  */
+%token <symrec*> VAR			     /* Symbol table pointer: variable and function.  */
+%type  <symrec*>  exp
+%type <symrec*>	declaracion
+
 
 
 %precedence '='
@@ -41,29 +36,46 @@ init_table (void);
 %right '^'      /* exponentiation */
 %% /* The grammar follows.  */
 
-programa:
-listaSentencias
+
+input:
+%empty
+| input line
 ;
 
-listaSentencias:
-|	sentencia
-|	listaSentencias	sentencia
+line:
+'\n'
+| exp '\n'   { printf ("R = %d ;\n", $1->type); }
+| error '\n' { yyerrok;                }
 ;
 
-sentencia:
-'\n'														
-|	declaracion ';' '\n'					{printf("B_Vi una declaración UP\n\n");}
-|	instruccion ';' '\n'				{printf("B_Vi una INSTR...\n\n");}
+
+exp:
+declaracion ';'					{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->compatible));}
+|	instruccion ';' 				{printf("B_Vi una INSTR...\n\n");}
 | error  '\n' { yyerrok;               }
 ;
 
 declaracion:
-TIPODATO secuenciaIds 				{printf("B_Vi una declaración Down\n");}
-;
-
-secuenciaIds:
-identificador											{ printf("B_Vi un solo ID %s\n", $1); }
-|secuenciaIds ',' identificador		{printf("B_Vi una seq Ids\n");}
+TIPODATO identificador				{  
+	printf("B_Tipo dato recibido: %d\n", $1);
+	printf("B_Valor identificador: %s\n", $2);
+	
+	printf("B_Vi una declaracion Down:\n\n");
+	s = putsym ($2, $1);
+	printf("B_Hizo pointer\n");
+	printf("B_Buscará en la tabla\n");
+	s = getsym ($2);														
+														printf("B_Vi una declaración Down 2:\n\n");
+                            if (!s){
+                                //printf("No encontró a >%s<", yytext);
+                                s = putsym ($2, $1);
+                            }
+														else{
+															printf("B_Lo encontró en la tabla: %s, tipo: %d\n", s->name, s->type);
+														}
+														$$ = s; 
+														printf("tipo y nombre: %d, %s", s->type, s->name);                           
+}
 ;
 
 instruccion:

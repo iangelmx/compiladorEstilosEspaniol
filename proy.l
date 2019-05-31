@@ -14,8 +14,8 @@ ES			[:space:]
 
 %%
 	
-[0-9]+"."[0-9]+         { yylval.decimal = atof(yytext); return NUM;  }
-[0-9]+                  { yylval.entero = atoi(yytext); return NUM;  }
+[0-9]+"."[0-9]+         { yylval.NUM = atof(yytext); return NUM;  }
+[0-9]+                  { yylval.NUM = atoi(yytext); return NUM;  }
 \n                      { return '\n'; }
 [ ]
 [-n+*/^=(){}]                { printf("retorna: %s \n", yytext); return *yytext;  }
@@ -24,10 +24,10 @@ ES			[:space:]
 [!]						{return '!';}
 [&]						{return '&';}
 
-"texto"			{ yylval.cadena = yytext; printf("Vi texto: %d", TIPODATO); return(TIPODATO); } 
-"caja"			{ yylval.variable.cadena = yytext; return(TIPODATO);  return(CAJA); }
-"tabla"			{ yylval.cadena = yytext; return(TIPODATO);  return(TABLA); }
-"lista"			{  return(LISTA); }
+"texto"			{ yylval.TIPODATO = TEXTO; printf("Vi texto: %d |", TIPODATO); return(TIPODATO); } 
+"caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  return(CAJA); }
+"tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);  return(TABLA); }
+"lista"			{ yylval.LI = TABLA; return(LISTA); }
 "hipervinculo"		{  return(HIPERVINCULO); }
 "imagen"		{  return(IMAGEN); }
 "efecto"		{  return(EFECTO); }
@@ -55,7 +55,7 @@ ES			[:space:]
 "visible"		{  return(VISIBLE); }
 "color"			{  return(COLOR); }
 
-
+"selector"		{ return(SELECTOR); }
 "agregaAtributo"	{  return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
@@ -72,7 +72,8 @@ ES			[:space:]
 
 \"(\\.|[^\\"])*\"	{ return(CADENA);}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
-[a-zA-Z]+			{ yylval.cadena = yytext; printf("Vi un id: %s \n", yytext); return identificador;}
+[a-zA-Z]+			{ yylval.identificador=yytext; printf("Vi un id: %s \n", yytext);
+							return identificador;}
 
 "\""			{  return('"'); }
 [,]			{  return(','); }
