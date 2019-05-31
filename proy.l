@@ -18,7 +18,7 @@ ES			[:space:]
 [0-9]+                  { yylval.NUM = atoi(yytext); return NUM;  }
 \n                      { return '\n'; }
 [ ]
-[-n+*/^=(){}]                { printf("retorna: %s \n", yytext); return *yytext;  }
+[-n+*/^=(){}]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
 [;]						{printf("Vi un ;\n");	return ';';}
 [|]						{return '|';}
 [!]						{return '!';}
@@ -34,7 +34,7 @@ ES			[:space:]
 
 
 
-"direccion"		{  return(DIRECCION); }
+"direccion"		{ return(DIRECCION); }
 "fuente"		{  return(FUENTE); }
 "tamaNHo"		{  return(TAMANHO); }
 "subrayado"		{  return(SUBRAYADO); }
@@ -56,7 +56,7 @@ ES			[:space:]
 "color"			{  return(COLOR); }
 
 "selector"		{ return(SELECTOR); }
-"agregaAtributo"	{  return(AGREGAATRIBUTO); }
+"agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
 "quitaAtributo"		{  return(QUITAATRIBUTO); }
@@ -70,7 +70,7 @@ ES			[:space:]
 "mientras"		{  return(MIENTRAS); }
 
 
-\"(\\.|[^\\"])*\"	{ return(CADENA);}
+\"(\\.|[^\\"])*\"	{ yylval.CADENA = yytext; return(CADENA);}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
 [a-zA-Z]+			{ yylval.identificador=yytext; printf("Vi un id: %s \n", yytext);
 							return identificador;}
@@ -79,6 +79,7 @@ ES			[:space:]
 [,]			{  return(','); }
 ">"			{  return( *yytext); }
 "|"			{  return('|'); }
+[.]			{ printf("retorna: '.' ->%s<-\n", yytext);return('.');}
 %%
 
 int indice = 0;

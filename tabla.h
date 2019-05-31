@@ -45,6 +45,7 @@ extern symrec *sym_table;
 extern int yydebug;
 extern const char *type_names[];
 extern int check_type(void);
+extern symrec *creaVariable(char const *sym_name, int tipo );
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);

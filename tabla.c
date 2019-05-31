@@ -58,3 +58,17 @@ init_table (void){
   }
 }
 
+symrec *creaVariable(char const *sym_name, int tipo ){
+  symrec * s;
+  //printf("B_Tipo dato recibido: %d\n", tipo);
+  //printf("B_Valor identificador: %s\n", sym_name);
+  
+  //printf("B_Vi una declaracion Down:\n\n");
+  s = putsym (sym_name, tipo);
+  //printf("B_Hizo pointer\n");
+  //printf("B_Buscará en la tabla\n");
+  s = getsym (sym_name);
+  return s;
+
+}
+

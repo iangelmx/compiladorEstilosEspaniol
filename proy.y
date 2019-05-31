@@ -57,25 +57,9 @@ declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n
 
 declaracion:
 TIPODATO identificador				{  
-	printf("B_Tipo dato recibido: %d\n", $1);
-	printf("B_Valor identificador: %s\n", $2);
-	
-	printf("B_Vi una declaracion Down:\n\n");
-	s = putsym ($2, $1);
-	printf("B_Hizo pointer\n");
-	printf("B_Buscará en la tabla\n");
-	s = getsym ($2);														
-														printf("B_Vi una declaración Down 2:\n\n");
-                            if (!s){
-                                //printf("No encontró a >%s<", yytext);
-                                s = putsym ($2, $1);
-                            }
-														else{
-															printf("B_Lo encontró en la tabla: %s, tipo: %d\n", s->name, s->type);
-														}
-														$$ = s; 
-														printf("tipo y nombre: %d, %s\n______\n", s->type, s->name);
-                         
+														s = creaVariable($2, $1); 
+														$$ = s;
+														printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
 }
 ;
 
@@ -95,13 +79,13 @@ identificador QUITAATRIBUTO '(' especificacion ')'
 ;
 
 colocacion:
-identificador '.' AGREGAATRIBUTO '(' especificacion ')'
+identificador '.' AGREGAATRIBUTO '(' especificacion ')'	{printf("B_Detecté una oper agregaatrr");}
 |identificador '.' MODIFICAATRIBUTO '(' especificacion ')'
 |identificador '.' CLONAATRIBUTO '(' especificacion ')'
 ;
 
 especificacion:
-DIRECCION '=' CADENA
+DIRECCION '=' CADENA		{printf("Vi Direccion y cadena: %s\n", $3);}
 |FUENTE '=' D
 |TAMANHO '=' D
 |SUBRAYADO
