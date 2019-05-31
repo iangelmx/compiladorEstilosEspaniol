@@ -50,7 +50,7 @@ line:
 
 
 exp:
-declaracion ';'					{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->compatible));}
+declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));}
 |	instruccion ';' 				{printf("B_Vi una INSTR...\n\n");}
 | error  '\n' { yyerrok;               }
 ;
@@ -74,7 +74,8 @@ TIPODATO identificador				{
 															printf("B_Lo encontró en la tabla: %s, tipo: %d\n", s->name, s->type);
 														}
 														$$ = s; 
-														printf("tipo y nombre: %d, %s", s->type, s->name);                           
+														printf("tipo y nombre: %d, %s\n______\n", s->type, s->name);
+                         
 }
 ;
 

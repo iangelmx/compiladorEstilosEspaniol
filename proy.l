@@ -19,7 +19,7 @@ ES			[:space:]
 \n                      { return '\n'; }
 [ ]
 [-n+*/^=(){}]                { printf("retorna: %s \n", yytext); return *yytext;  }
-[;]						{printf("Vi un ;\n");	return ',';}
+[;]						{printf("Vi un ;\n");	return ';';}
 [|]						{return '|';}
 [!]						{return '!';}
 [&]						{return '&';}
@@ -27,7 +27,7 @@ ES			[:space:]
 "texto"			{ yylval.TIPODATO = TEXTO; printf("Vi texto: %d |", TIPODATO); return(TIPODATO); } 
 "caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  return(CAJA); }
 "tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);  return(TABLA); }
-"lista"			{ yylval.LI = TABLA; return(LISTA); }
+"lista"			{ yylval.TIPODATO = LISTA; return(LISTA); }
 "hipervinculo"		{  return(HIPERVINCULO); }
 "imagen"		{  return(IMAGEN); }
 "efecto"		{  return(EFECTO); }
