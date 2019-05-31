@@ -13,29 +13,34 @@ char *strValor;
 char *pre;
 int indice;
 int aux;
-int auxiliarConteo;
+int auxiliarConteo = 0;
 %}
 
 %define api.value.type union
 
 %token <symrec*> TEXTO CAJA TABLA LISTA HIPERVINCULO IMAGEN EFECTO
-%token DIRECCION FUENTE VINHETA 
+%token <int> FUENTE TAMANHO SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS
+%token DIRECCION VINHETA 
 %token TODOS REPITE PARACADA SI NO ES MIENTRAS
 %token AGREGAATRIBUTO CLONAATRIBUTO MODIFICAATRIBUTO QUITAATRIBUTO
 %token EQ_COMP MAYEQ_COMP MENEQ_COMP
 %token H COMENTARIO
 
-%token <int> TAMANHO BORDE ANCHO ALTO MARGEN TIPODATO D
-%token <int> SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS VISIBLE
+
+%token <int>  BORDE ANCHO ALTO MARGEN TIPODATO D
+%token <int>     VISIBLE
 %token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA SELECTOR nombreId
 %token <symrec*> identificador
 %token <char*> id
+%token <int> ATTR
+%token <valores*> valor
 
 %token <double>  NUM         								/* Simple double precision number.  */
 %token <symrec*> VAR			     /* Symbol table pointer: variable and function.  */
 %type  <symrec*>  exp
 %type <symrec*>	declaracion
 %type <symrec*> especificacion
+%type <symrec*> especificaciones
 
 
 
@@ -106,16 +111,14 @@ identificador QUITAATRIBUTO '(' especificacion ')'
 ;
 
 colocacion:
-identificador '.' AGREGAATRIBUTO '(' especificacion ')'	{
+identificador '.' AGREGAATRIBUTO '(' especificaciones ')'	{
 	printf("B_Detecté una oper agregaatrr\n");
 		s = getsym($1->name);
 		printf("B_Va a buscar en colocación a: %s\n", $1->name);
 		if(s){
-			if(s->type == TEXTO){
-				if( $5->type == TEXTO ){
-					s = $5;
-					printf("asdf");
-				}
+			if(s->type == $5->type){
+				printProperties($5);
+				printf("\n");
 			}
 			printf("Nuevo valor de s: %s", s->value.valFuente);
 		}
@@ -127,14 +130,28 @@ identificador '.' AGREGAATRIBUTO '(' especificacion ')'	{
 |identificador '.' CLONAATRIBUTO '(' especificacion ')'
 ;
 
+especificaciones:
+ATTR '=' valor	{ 
+	auxiliarConteo++;
+	switch( $1 ){
+		case FUENTE:
+			printf("B_Me pareció ver un lindo gatito");
+			if($3->tipo == 1){
+				pre=malloc(sizeof(char));
+				sprintf(pre, "%d", auxiliarConteo);
+				s = putsym( pre, TEXTO );
+				strcpy (s->value.valFuente,$3->valorStr);
+				$$ = s;
+			}
+		break;
+	}
+ }
+;
+
 especificacion: 
 DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
 |FUENTE '=' CADENA						{ 
-																sprintf(pre, %d, auxiliarConteo);
-																s = putsym( TEXTO, pre );
-																cleanStruct( s );
-																strcpy (s->value.valFuente,$5);
-																$$ = s;
+																
 															}
 |TAMANHO '=' D								{  }
 |SUBRAYADO

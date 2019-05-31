@@ -3,7 +3,6 @@
 #include <math.h>
 #include "tabla.h"
 #include "proy.tab.h"
-int valor = 0;
 %}
 
 D			[0-9]+
@@ -35,7 +34,7 @@ ES			[:space:]
 
 
 "direccion"		{ return(DIRECCION); }
-"fuente"		{ printf("Retorna fuente: %s\n", yytext); return(FUENTE); }
+"fuente"		{ yylval.ATTR=FUENTE; printf("Retorna fuente: %s\n", yytext); return(ATTR); }
 "tamaNHo"		{  return(TAMANHO); }
 "subrayado"		{  return(SUBRAYADO); }
 "negritas"		{  return(NEGRITAS); }
@@ -70,7 +69,15 @@ ES			[:space:]
 "mientras"		{  return(MIENTRAS); }
 
 
-\"(\\.|[^\\"])*\"	{ printf("Retorna la cadena: >%s<\n", yytext); yylval.CADENA = yytext; return(CADENA);}
+\"(\\.|[^\\"])*\"	{ printf("Retorna la cadena: >%s<\n", yytext); 
+						yylval.CADENA = yytext; 
+						valores* v = creaValores();
+						strcpy( v->valorStr, yytext );
+						v->tipo = 1;
+						yylval.valor = v;
+						return(valor);
+						return(CADENA);
+					}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
 {L}+			{ printf("Vi un id: ->%s<- \n", yytext);
 					symrec *s = getsym(yytext);

@@ -16,6 +16,16 @@ struct init
   double (*fnct) (double);
 };
 
+struct valores{
+  char *valorStr;
+  int valorInt;
+  double valorDouble;
+  int tipo;
+};
+
+typedef struct valores valores;
+
+
 struct valorVar{
     char *valorStr;
     int valorInt;
@@ -55,6 +65,9 @@ extern const char *type_names[];
 extern int check_type(void);
 extern symrec *creaVariable(char const *sym_name, int tipo );
 extern symrec *validaExistencia(char const *sym_name);
+extern void cleanStruct( symrec *s );
+extern void printProperties( symrec *s );
+extern valores* creaValores();
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);

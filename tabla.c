@@ -10,8 +10,8 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->type = sym_type;
   ptr->compatible = 0;
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
-  ptr->value.valorStr = ""; /* Set value to 0 even if fctn.  */
-  ptr->value.valFuente = "";
+  ptr->value.valorStr = (char *) malloc (strlen (sym_name) + 1); /* Set value to 0 even if fctn.  */
+  ptr->value.valFuente = (char *) malloc (strlen (sym_name) + 1);
   ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
@@ -78,8 +78,7 @@ symrec *creaVariable(char const *sym_name, int tipo ){
   return s;
 
 }
-void cleanStruct( symrec *s ){
-  ptr = s;
+void cleanStruct( symrec *ptr ){
   strcpy( ptr->name, "" );
   ptr->compatible = 0;
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
@@ -95,18 +94,20 @@ void cleanStruct( symrec *s ){
 }
 
 
-void cleanStruct( symrec *s ){
-  ptr = s;
-  strcpy( ptr->name, "" );
-  ptr->compatible = 0;
-  ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
-  strcpy( ptr->value.valorStr, "" );
-  strcpy( ptr->value.valFuente, "" );
-  ptr->value.valTamanho = 0;
-  ptr->value.valBoolSubrayado =0;
-  ptr->value.valBoolNegrita = 0;
-  ptr->value.valBoolCursiva = 0;
-  ptr->value.valBoolTachado = 0;
-  ptr->value.valBoolMayusculas= 0; 
-  ptr->next = NULL;
+void printProperties( symrec* s ){
+  if( s->value.valorInt != 0 ){
+    printf("%d",s->value.valorInt);
+  }
+  if( s->value.valFuente != 0 ){
+    printf("font-family: %s;", s->value.valFuente);
+  }
+}
+
+valores* creaValores(){
+  valores* ptr = (valores*) malloc( sizeof(valores) );
+  ptr->valorStr = (char*) malloc(sizeof(char));
+  strcpy (ptr->valorStr,"");
+  ptr->valorInt = 0;
+  ptr->valorDouble = 0;
+  ptr->tipo = 0;
 }
