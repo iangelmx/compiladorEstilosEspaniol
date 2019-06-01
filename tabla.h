@@ -80,7 +80,7 @@ extern void cleanStruct( symrec *s );
 extern void printProperties( symrec *s );
 extern valores* creaValores();
 extern symrec *creaSimbolAux(int auxiliarConteo, int tipoDato);
-extern void imprimeValores(symrec *elemento);
+extern void cierraSelect(symrec *s);
 extern void incluyeNuevaPropiedad(symrec *destino , sym_name *origen);
 //extern YYSTYPE yylval;
 

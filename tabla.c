@@ -146,17 +146,83 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   return s;
 }
 
-void imprimeValores(symrec *elemento){
-
-}
 
 void incluyeNuevaPropiedad(symrec *destino , sym_name *origen){
 
 }
-/*clonaValores( symrec* s1  symrec* s2 ){
-  
+
+void cierraSelect(symrec *s){
+	printf("%d { \n", s->selector);
+	switch(s->type){
+		case 1:
+			if(strcmp("", s->value.valFuente) != 0){	
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valFuente != "" ){
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valTamanho != 0 ){
+				printf("font-size: %d;\n", s->value.valTamanho);
+		 	}
+			if( s->value.valBoolSubrayado != 0 ){
+				printf("text-decoration: underline\n");
+		 	}
+			if( s->value.valBoolNegrita != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolCursiva != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolTachado != 0 ){
+				printf("text-decoration: line-through;\n");
+		 	}	
+			if( s->value.valBoolMayusculas != 0 ){
+				printf("text-transform: uppercase;\n");
+		 	}	
+		break;	
+		case 2:
+			if( s->value.valAnchura != "" ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px\n;", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+		break;
+		case 3:
+			if( s->value.valAnchura != "" ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px;\n", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+		break;
+		case 4:
+			printf("/*No configurado*/");
+		break;
+		case 5:
+			if( s->value.valColorVista != 0 ){
+				printf("a:visited {  background-color: %s;}",s->value.valColorVista);
+			}
+		break;
+		case 6:
+			if( s->value.margen != 0 ){
+				printf("font-weight: bold;\n");
+			}
+		break;
+		}
+	printf("} \n");
 }
 
-imprimeCss(){
 
-}*/
