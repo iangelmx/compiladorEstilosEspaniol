@@ -19,10 +19,11 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  ptr->value.valAnchura = (char *) malloc (sizeof (char) );
-  ptr->value.valAltura = (char *) malloc (sizeof (char) );
-  ptr->value.valBorde = (char *) malloc (sizeof (char) );
+  ptr->value.valAnchura = 0;
+  ptr->value.valAltura = 0;
+  ptr->value.valBorde = 0;
   ptr->value.valFondo = (char *) malloc (sizeof (char) );
+  ptr->value.valFondoImg = (char *) malloc (sizeof (char) );
   ptr->value.valPosicion = (char *) malloc (sizeof (char) );
   ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
   ptr->value.valColorVista = (char *) malloc (sizeof (char) );
@@ -101,10 +102,11 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  strcpy( ptr->value.valAnchura , "" );
-  strcpy( ptr->value.valAltura , "" );
-  strcpy( ptr->value.valBorde , "" );
+  ptr->value.valAnchura = 0;
+  ptr->value.valAltura = 0;
+  ptr->value.valBorde = 0;
   strcpy( ptr->value.valFondo , "" );
+  strcpy( ptr->value.valFondoImg , "" );
   strcpy( ptr->value.valPosicion , "" );
   strcpy( ptr->value.valAlineacion , "" );
   strcpy( ptr->value.valColorVista , "" );
@@ -148,6 +150,9 @@ void imprimeValores(symrec *elemento){
 
 }
 
+void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
+  if( strcmp(origen->value.valFuente)  )
+}
 /*clonaValores( symrec* s1  symrec* s2 ){
   
 }

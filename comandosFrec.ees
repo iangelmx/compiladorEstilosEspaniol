@@ -7,3 +7,6 @@ texto.selector = "#id";
 
 texto cass;
 cass.selector = "#id";
+
+si (parrafos.fuente = 1): texto casss;
+si (parrafos.negritas = 1): texto casss;
