@@ -126,7 +126,7 @@ identificador '.' CIERRASELECTOR	{ cierraSelector( $1 ); }
 ;
 
 asociacion:
-identificador '.' SELECTOR '=' '"' valor '"' {
+identificador '.' SELECTOR '=' valor {
 	printf("What?");
 	if( $5->tipo==1 ){
 		s = $1;
@@ -149,8 +149,10 @@ identificador QUITAATRIBUTO '(' ATTR ')'
 
 colocacion:
 identificador '.' AGREGAATRIBUTO '(' especificaciones ')'			{
+																																printf("El valor especificaciones es: %s.-.-.-.-.-.-", $5->value.valFuente);
 																																printf("B_Detecté una oper agregaatrr\n");
-																																	verificaTiposYAsigna($1, $5);
+																																printf("El valor agregado fuente fue: %s <<<<<<<", $5->value.valFuente);
+																																verificaTiposYAsigna($1, $5);
 
 																																}
 |identificador '.' MODIFICAATRIBUTO '(' especificaciones ')'		{
@@ -161,12 +163,12 @@ identificador '.' AGREGAATRIBUTO '(' especificaciones ')'			{
 ;
 
 especificaciones:
-ATTR '=' valor	{ 
+ATTR '=' valor	{
+	printf("165 especificaciones") ;
 	auxiliarConteo++;
 	switch( $1 ){
 		case FUENTE:
 			if($3->tipo == 1){
-				//printf("Tipo de valor: %d\n", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
 				strcpy (s->value.valFuente,$3->valorStr);
 				$$ = s;
@@ -243,9 +245,6 @@ ATTR '=' valor	{
 			//Para cajas y tablas.
 			$$ = s;
 		break;
-		default:
-			$$ = NULL;
-		break;
 	}
  }
 | ATTR {
@@ -298,20 +297,22 @@ int main (int argc, char const* argv[])
 
 
 void verificaTiposYAsigna(symrec *a, symrec *b){
-	if(a){
+	printf("Llega a verificaTipos y Asigna");
 		if(a->type == b->type){
+			printf("Está aquí 303");
 			incluyeNuevaPropiedad(a, b);
 			printf("Se supone que se añadió el nuevo atributo");
 		}
 		else if((a->type == CAJA_Y_TABLA || a->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA) ){
+			printf("Está aquí 308");
 			incluyeNuevaPropiedad(a, b);
 			printf("Se supone que se añadió UN nuevo atributo");
 		}
 		else{
 			printf("AttributeError: Tipos de dato incompatibles: %d y %d\n\n", a->type, b->type);
 		}
-	}
-	else{
+
+	/*else{
 		printf("Variable no declarada");
-	}
+	}*/
 }
