@@ -152,7 +152,7 @@ void incluyeNuevaPropiedad(symrec *destino , sym_name *origen){
 }
 
 void cierraSelect(symrec *s){
-	printf("%d { \n", s->selector);
+	printf("%s { \n", s->selector);
 	switch(s->type){
 		case 1:
 			if(strcmp("", s->value.valFuente) != 0){	
