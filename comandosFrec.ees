@@ -8,5 +8,10 @@ texto.selector = "#id";
 texto cass;
 cass.selector = "#id";
 
+texto parrafos;
 si (parrafos.fuente = 1): texto casss;
 si (parrafos.negritas = 1): texto casss;
+
+si (uno.ancho = 10):
+texto parrafos;
+finsi
