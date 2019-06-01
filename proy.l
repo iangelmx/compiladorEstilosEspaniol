@@ -29,14 +29,14 @@ ES			[:space:]
 						}
 \n                      { return '\n'; }
 [ ]
-[-n+*/^=(){}.:]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
-[;]						{printf("Vi un ;\n");	return ';';}
+[-n+*/^=(){}.:]                { /*printf("retorna glifo: ->%s<- \n", yytext)*/; return *yytext;  }
+[;]						{/*printf("Vi un ;\n");	*/return ';';}
 [|]						{return '|';}
 [!]						{return '!';}
 [&]						{return '&';}
 
-"texto"			{ yylval.TIPODATO = TEXTO; printf("Vi texto: %d |", TIPODATO); return(TIPODATO); } 
-"caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  }
+"texto"			{ yylval.TIPODATO = TEXTO; /*printf("Vi texto: %d |", TIPODATO);*/ return(TIPODATO); } 
+"caja"			{ yylval.TIPODATO = CAJA; /*printf("Vi una CAJA: %d |", TIPODATO);*/ return(TIPODATO);  }
 "tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);   }
 "lista"			{ yylval.TIPODATO = LISTA; return(TIPODATO); }
 "hipervinculo"		{	yylval.TIPODATO = HIPERVINCULO;  return(TIPODATO); }
@@ -46,7 +46,7 @@ ES			[:space:]
 
 
 "direccion"		{ return(DIRECCION); }
-"fuente"		{ yylval.ATTR=FUENTE; printf("Retorna fuente: %s\n", yytext); return(ATTR); }
+"fuente"		{ yylval.ATTR=FUENTE; /*printf("Retorna fuente: %s\n", yytext); */return(ATTR); }
 "tamanho"		{  yylval.ATTR=TAMANHO;	return(ATTR); }
 "subrayado"		{  yylval.ATTR=SUBRAYADO;	return(ATTR); }
 "negritas"		{  yylval.ATTR=NEGRITAS;	return(ATTR); }
@@ -67,8 +67,8 @@ ES			[:space:]
 "color"			{ yylval.ATTR=COLOR; return(ATTR); }
 "fondoImagen"		{ yylval.ATTR=FONDOIMG; return(ATTR); }
 
-"selector"		{ printf("Vi selector\n"); return (SELECTOR); }
-"agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
+"selector"		{ /*printf("Vi selector\n");*/ return (SELECTOR); }
+"agregaAtributo"	{ /*printf("Rertorna: agregaAtributo\n");*/ return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
 "quitaAtributo"		{  return(QUITAATRIBUTO); }
@@ -77,14 +77,14 @@ ES			[:space:]
 "todos"			{  return(TODOS); }
 "repite"		{  return(REPITE); }
 "paraCada"		{  return(PARACADA); }
-"si"			{ printf("Retorna si"); return(SI); }
-"finsi"			{ printf("Retorna finsi"); return(FINSI); }
+"si"			{ /*printf("Retorna si");*/ return(SI); }
+"finsi"			{ /*printf("Retorna finsi");*/ return(FINSI); }
 "no"			{  return(NO); /*POR QUE NO MANEJAMOS ESTO COMO !=*/}
 "es"			{  return(ES); /*POR QUE NO MANEJAMOS ESTO COMO UN ==?*/}
 "mientras"		{  return(MIENTRAS); }
 
 
-\"(\\.|[^\\"])*\"	{ printf("Retorna la cadena: >%s<\n", yytext); 
+\"(\\.|[^\\"])*\"	{ /*printf("Retorna la cadena: >%s<\n", yytext);*/ 
 						yylval.CADENA = yytext; 
 						valores* v = creaValores();
 						strcpy( v->valorStr, yytext );
@@ -94,16 +94,16 @@ ES			[:space:]
 						return(CADENA);
 					}
 \/\*\s*([^\s]*)\s*\*\/	{ return(COMENTARIO);}
-{L}+			{ printf("Vi un id: ->%s<- \n", yytext);
+{L}+			{ /*printf("Vi un id: ->%s<- \n", yytext);*/
 					symrec *s = getsym(yytext);
 					if(s){
 						yylval.identificador = s;
-						printf("Retorna identificador symrec\n");
+						/*printf("Retorna identificador symrec\n");*/
 						return identificador;
 					}
 					else{
 						yylval.id=yytext;
-						printf("Retorna id char* %s \n", yylval.id);
+						/*printf("Retorna id char* %s \n", yylval.id);*/
 						return id;
 					}
 				}
