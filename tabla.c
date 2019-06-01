@@ -9,6 +9,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   strcpy (ptr->name,sym_name);
   ptr->type = sym_type;
   ptr->compatible = 0;
+  ptr->selector = (char *) malloc (sizeof (char) );
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
   ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
@@ -18,16 +19,16 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  ptr->value.valAnchura = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valAltura = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valBorde = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valFondo = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valPosicion = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valAlineacion = (char *) malloc (sizeof (char) + 1);
-  ptr->value.valColorVista = (char *) malloc (sizeof (char) + 1);
-  ptr->value.margen = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valAnchura = (char *) malloc (sizeof (char) );
+  ptr->value.valAltura = (char *) malloc (sizeof (char) );
+  ptr->value.valBorde = (char *) malloc (sizeof (char) );
+  ptr->value.valFondo = (char *) malloc (sizeof (char) );
+  ptr->value.valPosicion = (char *) malloc (sizeof (char) );
+  ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
+  ptr->value.valColorVista = (char *) malloc (sizeof (char) );
+  ptr->value.margen = (char *) malloc (sizeof (char) );
   ptr->value.valVisibilidad = 0;
-  ptr->value.color = (char *) malloc (sizeof (char) + 1);
+  ptr->value.color = (char *) malloc (sizeof (char) );
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -139,8 +140,12 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   pre=malloc(sizeof(char));
   sprintf(pre, "%d", auxiliarConteo);
   s = putsym( pre, tipoDato );
-  return s;
   free(pre);
+  return s;
+}
+
+void imprimeValores(symrec *elemento){
+
 }
 
 /*clonaValores( symrec* s1  symrec* s2 ){

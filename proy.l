@@ -24,12 +24,12 @@ ES			[:space:]
 [&]						{return '&';}
 
 "texto"			{ yylval.TIPODATO = TEXTO; printf("Vi texto: %d |", TIPODATO); return(TIPODATO); } 
-"caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  return(CAJA); }
-"tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);  return(TABLA); }
-"lista"			{ yylval.TIPODATO = LISTA; return(LISTA); }
-"hipervinculo"		{  return(HIPERVINCULO); }
-"imagen"		{  return(IMAGEN); }
-"efecto"		{  return(EFECTO); }
+"caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  }
+"tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);   }
+"lista"			{ yylval.TIPODATO = LISTA; return(TIPODATO); }
+"hipervinculo"		{	yylval.TIPODATO = LISTA;  return(TIPODATO); }
+"imagen"		{  yylval.TIPODATO = LISTA;return(TIPODATO); }
+"efecto"		{  yylval.TIPODATO = LISTA;return(TIPODATO); }
 
 
 
@@ -39,22 +39,22 @@ ES			[:space:]
 "subrayado"		{  yylval.ATTR=SUBRAYADO;	return(ATTR); }
 "negritas"		{  yylval.ATTR=NEGRITAS;	return(ATTR); }
 "cursivas"		{  yylval.ATTR=CURSIVAS;	return(ATTR); }
-"tachado"		{  yylval.ATTR=TACHADO;	return(ATTR); 		}
+"tachado"		{  yylval.ATTR=TACHADO;		return(ATTR); 		}
 "mayusculas"		{  yylval.ATTR=MAYUSCULAS;	return(ATTR); }
-"ancho"			{  return(ANCHO); }
-"alto"			{  return(ALTO); }
-"borde"			{  return(BORDE); }
-"fondo"			{  return(FONDO); }
-"posicion"		{  return(POSICION); }
-"alineacion"		{  return(ALINEACION); }
+"ancho"			{ yylval.ATTR=ANCHO; return(ATTR); }
+"alto"			{ yylval.ATTR=ALTO; return(ATTR); }
+"borde"			{ yylval.ATTR=BORDE; return(ATTR); }
+"fondo"			{ yylval.ATTR=FONDO; return(ATTR); }
+"posicion"		{ yylval.ATTR=POSICION; return(ATTR); }
+"alineacion"		{ yylval.ATTR=ALINEACION; return(ATTR); }
 "tipo"			{  return(TIPO); }
 "vinheta"		{  return(VINHETA); }
-"colorVisto"		{  return(COLORVISTO); }
-"margen"		{  return(MARGEN); }
-"visible"		{  return(VISIBLE); }
-"color"			{  return(COLOR); }
+"colorVisto"		{ yylval.ATTR=COLORVISTO; return(ATTR); }
+"margen"		{ yylval.ATTR=MARGEN; return(ATTR); }
+"visible"		{ yylval.ATTR=VISIBLE; return(ATTR); }
+"color"			{ yylval.ATTR=COLOR; return(ATTR); }
 
-"selector"		{ return (SELECTOR); }
+"selector"		{ printf("Vi selector\n"); return (SELECTOR); }
 "agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
@@ -84,12 +84,12 @@ ES			[:space:]
 					symrec *s = getsym(yytext);
 					if(s){
 						yylval.identificador = s;
-						//printf("Retorna identificador symrec\n");
+						printf("Retorna identificador symrec\n");
 						return identificador;
 					}
 					else{
 						yylval.id=yytext;
-						printf("Retorna id char* \n");
+						printf("Retorna id char* %s \n", yylval.id);
 						return id;
 					}
 				}

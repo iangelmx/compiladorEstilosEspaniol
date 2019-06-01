@@ -55,7 +55,7 @@ struct symrec
 {
   char *name;  /* name of symbol */
   int type;    /* type of symbol: either VAR or FNCT */
-  int *compatible;
+  int compatible;
   char *selector;
   datos value; 
   struct symrec *next;  /* link field */
@@ -79,6 +79,7 @@ extern void cleanStruct( symrec *s );
 extern void printProperties( symrec *s );
 extern valores* creaValores();
 extern symrec *creaSimbolAux(int auxiliarConteo, int tipoDato);
+extern void imprimeValores(symrec *elemento);
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);
