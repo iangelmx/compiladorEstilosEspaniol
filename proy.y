@@ -20,14 +20,15 @@ int auxiliarConteo = 0;
 
 %token <symrec*> TEXTO CAJA TABLA LISTA HIPERVINCULO IMAGEN EFECTO
 %token <int> FUENTE TAMANHO SUBRAYADO NEGRITAS CURSIVAS TACHADO MAYUSCULAS
-%token DIRECCION VINHETA 
+%token DIRECCION VINHETA FONDOIMG
+%token CAJA_Y_TABLA CAJA_TABLA_TEXTO_LISTA_HIPERV
 %token TODOS REPITE PARACADA SI NO ES MIENTRAS
 %token AGREGAATRIBUTO CLONAATRIBUTO MODIFICAATRIBUTO QUITAATRIBUTO
 %token EQ_COMP MAYEQ_COMP MENEQ_COMP
 %token H COMENTARIO CIERRASELECTOR
 
 
-%token <int>  BORDE ANCHO ALTO MARGEN TIPODATO D
+%token BORDE ANCHO ALTO MARGEN TIPODATO D
 %token <int>     VISIBLE
 %token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA SELECTOR nombreId
 %token <symrec*> identificador
@@ -39,7 +40,6 @@ int auxiliarConteo = 0;
 %token <symrec*> VAR			     /* Symbol table pointer: variable and function.  */
 %type  <symrec*>  exp
 %type <symrec*>	declaracion
-%type <symrec*> especificacion
 %type <symrec*> especificaciones
 
 
@@ -118,14 +118,16 @@ identificador QUITAATRIBUTO '(' ATTR ')'
 colocacion:
 identificador '.' AGREGAATRIBUTO '(' especificaciones ')'	{
 	printf("B_Detecté una oper agregaatrr\n");
-		s = getsym($1->name);
-		printf("B_Va a buscar en colocación a: %s\n", $1->name);
+		s = $1;
 		if(s){
 			if(s->type == $5->type){
-				printProperties($5);
-				printf("\n");
+				incluyeNuevaPropiedad(s, $5);
+				printf("Se supone que se añadió el nuevo atributo");
 			}
-			printf("Nuevo valor de s: %s", s->value.valFuente);
+			else if((s->type == CAJA_Y_TABLA || s->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && ($1->type == CAJA || $1->type==TABLA){
+				incluyeNuevaPropiedad(s, $5);
+				printf("Se supone que se añadió UN nuevo atributo");
+			}			
 		}
 		else{
 			printf("Variable no declarada"); yyerrok;
@@ -141,7 +143,7 @@ ATTR '=' valor	{
 	switch( $1 ){
 		case FUENTE:
 			if($3->tipo == 1){
-				printf("Tipo de valor: %d\n", $3->tipo);
+				//printf("Tipo de valor: %d\n", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
 				strcpy (s->value.valFuente,$3->valorStr);
 				$$ = s;
@@ -156,6 +158,67 @@ ATTR '=' valor	{
 			else{
 				//Mandar error;
 			}
+		break;
+		case ANCHO:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valAnchura, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case ALTO:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valAltura, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case BORDE:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valBorde, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case FONDO:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valFondo, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case FONDOIMG:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valFondoImg, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case POSICION:
+			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
+			strcpy (s->value.valPosicion, $3->valorStr);
+			 //Para cajas y tablas.
+			$$ = s;
+		break;
+		case ALINEACION:
+			s = creaSimbolAux(auxiliarConteo, TABLA);
+			strcpy (s->value.valAlineacion, $3->valorStr);
+			$$ = s;
+		break;
+		case COLORVISTO:
+			s = creaSimbolAux(auxiliarConteo, HIPERVINCULO);
+			strcpy (s->value.valColorVista, $3->valorStr);
+			$$ = s;
+		break;
+		case MARGEN:
+			s = creaSimbolAux(auxiliarConteo, CAJA_TABLA_TEXTO_LISTA_HIPERV);
+			strcpy (s->value.margen, $3->valorStr);
+			$$ = s;
+		break;
+		case VISIBLE:
+			s = creaSimbolAux(auxiliarConteo, CAJA_TABLA_TEXTO_LISTA_HIPERV);
+			s->value.valVisibilidad = $3->valorInt;
+			$$ = s;
+		break;
+		case COLOR:
+			s = creaSimbolAux(auxiliarConteo, CAJA_TABLA_TEXTO_LISTA_HIPERV);
+			strcpy (s->value.color, $3->valorStr);
+			$$ = s;
 		break;
 	}
  }
@@ -188,31 +251,6 @@ ATTR '=' valor	{
 			break;
 	}
 }
-;
-
-especificacion: 
-DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
-|FUENTE '=' CADENA						{ 
-															
-															}
-|TAMANHO '=' D								{  }
-|SUBRAYADO
-|NEGRITAS
-|CURSIVAS 
-|TACHADO
-|MAYUSCULAS
-|ANCHO '='D
-|ALTO '=' D
-|BORDE '='
-|FONDO '=' CADENA
-|POSICION '=' CADENA 
-|ALINEACION '=' CADENA
-|TIPO '='CADENA
-|VINHETA '=' CADENA
-|COLORVISTO '=' H 
-|MARGEN '=' D
-|VISIBLE
-|COLOR '='H
 ;
 
 /* End of grammar.  */

@@ -41,6 +41,7 @@ struct valorVar{
     char *valAltura;
     char *valBorde;
     char *valFondo;
+    char *valFondoImg;
     char *valPosicion;
     char *valAlineacion;
     char *valColorVista;
@@ -80,6 +81,7 @@ extern void printProperties( symrec *s );
 extern valores* creaValores();
 extern symrec *creaSimbolAux(int auxiliarConteo, int tipoDato);
 extern void imprimeValores(symrec *elemento);
+extern void incluyeNuevaPropiedad(symrec *destino , sym_name *origen);
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);

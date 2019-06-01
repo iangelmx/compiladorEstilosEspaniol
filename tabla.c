@@ -23,6 +23,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valAltura = (char *) malloc (sizeof (char) );
   ptr->value.valBorde = (char *) malloc (sizeof (char) );
   ptr->value.valFondo = (char *) malloc (sizeof (char) );
+  ptr->value.valFondoImg = (char *) malloc (sizeof (char) );
   ptr->value.valPosicion = (char *) malloc (sizeof (char) );
   ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
   ptr->value.valColorVista = (char *) malloc (sizeof (char) );
@@ -105,6 +106,7 @@ void cleanStruct( symrec *ptr ){
   strcpy( ptr->value.valAltura , "" );
   strcpy( ptr->value.valBorde , "" );
   strcpy( ptr->value.valFondo , "" );
+  strcpy( ptr->value.valFondoImg , "" );
   strcpy( ptr->value.valPosicion , "" );
   strcpy( ptr->value.valAlineacion , "" );
   strcpy( ptr->value.valColorVista , "" );
@@ -148,6 +150,9 @@ void imprimeValores(symrec *elemento){
 
 }
 
+void incluyeNuevaPropiedad(symrec *destino , sym_name *origen){
+
+}
 /*clonaValores( symrec* s1  symrec* s2 ){
   
 }
