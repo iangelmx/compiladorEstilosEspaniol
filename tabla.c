@@ -139,6 +139,7 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   pre=malloc(sizeof(char));
   sprintf(pre, "%d", auxiliarConteo);
   s = putsym( pre, tipoDato );
+  return s;
   free(pre);
 }
 

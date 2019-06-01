@@ -137,10 +137,12 @@ ATTR '=' valor	{
 		case FUENTE:
 			printf("B_Me pareció ver un lindo gatito\n");
 			if($3->tipo == 1){
-				printf("Tipo de valor: %d", $3->tipo);
+				printf("Tipo de valor: %d\n", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
-				/*strcpy (s->value.valFuente,$3->valorStr);
-				$$ = s;*/
+				//printf("Valor a copiar: >%s<", $3->valorStr);
+				strcpy (s->value.valFuente,$3->valorStr);
+				//printf("Pasó el strcpy\n");
+				$$ = s;
 			}
 		break;
 		case TAMANHO:
