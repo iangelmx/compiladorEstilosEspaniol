@@ -40,7 +40,7 @@ ES			[:space:]
 "negritas"		{  yylval.ATTR=NEGRITAS;	return(ATTR); }
 "cursivas"		{  yylval.ATTR=CURSIVAS;	return(ATTR); }
 "tachado"		{  yylval.ATTR=TACHADO;	return(ATTR); 		}
-"mayusculas"	{  yylval.ATTR=MAYUSCULAS;	return(ATTR); }
+"mayusculas"		{  yylval.ATTR=MAYUSCULAS;	return(ATTR); }
 "ancho"			{  return(ANCHO); }
 "alto"			{  return(ALTO); }
 "borde"			{  return(BORDE); }
@@ -54,11 +54,12 @@ ES			[:space:]
 "visible"		{  return(VISIBLE); }
 "color"			{  return(COLOR); }
 
-"asociaSelector"	{ return (SELECTOR); }
+"selector"		{ return (SELECTOR); }
 "agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
 "clonaAtributo"		{  return(CLONAATRIBUTO); }
 "modificaAtributo"	{  return(MODIFICAATRIBUTO); }
 "quitaAtributo"		{  return(QUITAATRIBUTO); }
+"cierraSelector"	{  return(CIERRASELECTOR); }
 
 "todos"			{  return(TODOS); }
 "repite"		{  return(REPITE); }
