@@ -35,12 +35,12 @@ ES			[:space:]
 
 "direccion"		{ return(DIRECCION); }
 "fuente"		{ yylval.ATTR=FUENTE; printf("Retorna fuente: %s\n", yytext); return(ATTR); }
-"tamaNHo"		{  return(TAMANHO); }
-"subrayado"		{  return(SUBRAYADO); }
-"negritas"		{  return(NEGRITAS); }
-"cursivas"		{  return(CURSIVAS); }
-"tachado"		{  return(TACHADO); }
-"mayusculas"		{  return(MAYUSCULAS); }
+"tamanho"		{  yylval.ATTR=TAMANHO;	return(ATTR); }
+"subrayado"		{  yylval.ATTR=SUBRAYADO;	return(ATTR); }
+"negritas"		{  yylval.ATTR=NEGRITAS;	return(ATTR); }
+"cursivas"		{  yylval.ATTR=CURSIVAS;	return(ATTR); }
+"tachado"		{  yylval.ATTR=TACHADO;	return(ATTR); 		}
+"mayusculas"	{  yylval.ATTR=MAYUSCULAS;	return(ATTR); }
 "ancho"			{  return(ANCHO); }
 "alto"			{  return(ALTO); }
 "borde"			{  return(BORDE); }
@@ -48,7 +48,7 @@ ES			[:space:]
 "posicion"		{  return(POSICION); }
 "alineacion"		{  return(ALINEACION); }
 "tipo"			{  return(TIPO); }
-"viNHeta"		{  return(VINHETA); }
+"vinheta"		{  return(VINHETA); }
 "colorVisto"		{  return(COLORVISTO); }
 "margen"		{  return(MARGEN); }
 "visible"		{  return(VISIBLE); }

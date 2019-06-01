@@ -137,21 +137,58 @@ ATTR '=' valor	{
 		case FUENTE:
 			printf("B_Me pareció ver un lindo gatito");
 			if($3->tipo == 1){
-				pre=malloc(sizeof(char));
-				sprintf(pre, "%d", auxiliarConteo);
-				s = putsym( pre, TEXTO );
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
 				strcpy (s->value.valFuente,$3->valorStr);
 				$$ = s;
 			}
 		break;
+		case TAMANHO:
+			if ($3->tipo == 1){
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				strcpy (s->value.valTamanho,$3->valorStr);
+				$$ = s;
+			}
+			else{
+				//Mandar error;
+			}
+		break;
 	}
  }
+| ATTR {
+	switch($1){
+		case SUBRAYADO:
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				s->value.valBoolSubrayado = 1;
+				$$ = s;
+			break;	
+			case NEGRITAS:
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				s->value.valBoolNegrita = 1;
+				$$ = s;
+			break;
+			case CURSIVAS:
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				s->value.valBoolCursiva = 1;
+				$$ = s;
+			break;
+			case TACHADO:
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				s->value.valBoolTachado = 1;
+				$$ = s;
+			break;
+			case MAYUSCULAS:
+				s = creaSimbolAux(auxiliarConteo, TEXTO);
+				s->value.valBoolMayusculas = 1;
+				$$ = s;
+			break;
+	}
+}
 ;
 
 especificacion: 
 DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
 |FUENTE '=' CADENA						{ 
-																
+															
 															}
 |TAMANHO '=' D								{  }
 |SUBRAYADO

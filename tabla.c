@@ -12,7 +12,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   ptr->value.valorStr = (char *) malloc (strlen (sym_name) + 1); /* Set value to 0 even if fctn.  */
   ptr->value.valFuente = (char *) malloc (strlen (sym_name) + 1);
-  ptr->value.valTamanho = 0;
+  ptr->value.valTamanho = (char *) malloc (strlen (sym_name) + 1);
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -84,7 +84,7 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   strcpy( ptr->value.valorStr, "" );
   strcpy( ptr->value.valFuente, "" );
-  ptr->value.valTamanho = 0;
+  strcpy( ptr->value.valTamanho, "" );
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -110,4 +110,14 @@ valores* creaValores(){
   ptr->valorInt = 0;
   ptr->valorDouble = 0;
   ptr->tipo = 0;
+}
+
+
+symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
+  symrec *s;
+  char *pre;
+  pre=malloc(sizeof(char));
+  sprintf(pre, "%d", auxiliarConteo);
+  s = putsym( pre, tipoDato );
+  free(pre);
 }
