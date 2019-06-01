@@ -10,24 +10,24 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->type = sym_type;
   ptr->compatible = 0;
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
-  ptr->value.valorStr = (char *) malloc (strlen (sym_name) + 1); /* Set value to 0 even if fctn.  */
-  ptr->value.valFuente = (char *) malloc (strlen (sym_name) + 1);
-  ptr->value.valTamanho = (char *) malloc (strlen (sym_name) + 1);
+  ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
+  ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
+  ptr->value.valTamanho = (char *) malloc (sizeof (sym_name) + 1);
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  ptr->value.valAnchura = (char *) malloc (strlen (char) + 1);
-  ptr->value.valAltura = (char *) malloc (strlen (char) + 1);
-  ptr->value.valBorde = (char *) malloc (strlen (char) + 1);
-  ptr->value.valFondo = (char *) malloc (strlen (char) + 1);
-  ptr->value.valPosicion = (char *) malloc (strlen (char) + 1);
-  ptr->value.valAlineacion = (char *) malloc (strlen (char) + 1);
-  ptr->value.valColorVista = (char *) malloc (strlen (char) + 1);
-  ptr->value.margen = (char *) malloc (strlen (char) + 1);
+  ptr->value.valAnchura = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valAltura = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valBorde = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valFondo = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valPosicion = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valAlineacion = (char *) malloc (sizeof (char) + 1);
+  ptr->value.valColorVista = (char *) malloc (sizeof (char) + 1);
+  ptr->value.margen = (char *) malloc (sizeof (char) + 1);
   ptr->value.valVisibilidad = 0;
-  ptr->value.color = (char *) malloc (strlen (char) + 1);
+  ptr->value.color = (char *) malloc (sizeof (char) + 1);
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -100,16 +100,16 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  strcpy( ptr->valAnchura , "" );
-  strcpy( ptr->valAltura , "" );
-  strcpy( ptr->valBorde , "" );
-  strcpy( ptr->valFondo , "" );
-  strcpy( ptr->valPosicion , "" );
-  strcpy( ptr->valAlineacion , "" );
-  strcpy( ptr->valColorVista , "" );
-  strcpy( ptr->margen , "" );
-  ptr->valVisibilidad = 0;
-  strcpy( ptr->color , "" );
+  strcpy( ptr->value.valAnchura , "" );
+  strcpy( ptr->value.valAltura , "" );
+  strcpy( ptr->value.valBorde , "" );
+  strcpy( ptr->value.valFondo , "" );
+  strcpy( ptr->value.valPosicion , "" );
+  strcpy( ptr->value.valAlineacion , "" );
+  strcpy( ptr->value.valColorVista , "" );
+  strcpy( ptr->value.margen , "" );
+  ptr->value.valVisibilidad = 0;
+  strcpy( ptr->value.color , "" );
   ptr->next = NULL;
 }
 
