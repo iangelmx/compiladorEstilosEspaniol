@@ -13,11 +13,23 @@ ES			[:space:]
 
 %%
 	
-[0-9]+"."[0-9]+         { yylval.NUM = atof(yytext); return NUM;  }
-[0-9]+                  { yylval.NUM = atoi(yytext); return NUM;  }
+[0-9]+"."[0-9]+         { 
+							valores* v = creaValores();
+							v->valorDouble = atof(yytext);
+							v->tipo = 3;
+							yylval.valor = v;
+							return(valor);
+						}
+[0-9]+                  { 
+							valores* v = creaValores();
+							v->valorInt = atoi(yytext);
+							v->tipo = 2;
+							yylval.valor = v;
+							return(valor);  
+						}
 \n                      { return '\n'; }
 [ ]
-[-n+*/^=(){}.]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
+[-n+*/^=(){}.:]                { printf("retorna glifo: ->%s<- \n", yytext); return *yytext;  }
 [;]						{printf("Vi un ;\n");	return ';';}
 [|]						{return '|';}
 [!]						{return '!';}
@@ -27,9 +39,9 @@ ES			[:space:]
 "caja"			{ yylval.TIPODATO = CAJA; printf("Vi una CAJA: %d |", TIPODATO); return(TIPODATO);  }
 "tabla"			{ yylval.TIPODATO = TABLA; return(TIPODATO);   }
 "lista"			{ yylval.TIPODATO = LISTA; return(TIPODATO); }
-"hipervinculo"		{	yylval.TIPODATO = LISTA;  return(TIPODATO); }
-"imagen"		{  yylval.TIPODATO = LISTA;return(TIPODATO); }
-"efecto"		{  yylval.TIPODATO = LISTA;return(TIPODATO); }
+"hipervinculo"		{	yylval.TIPODATO = HIPERVINCULO;  return(TIPODATO); }
+"imagen"		{  yylval.TIPODATO = IMAGEN;return(TIPODATO); }
+"efecto"		{  yylval.TIPODATO = EFECTO;return(TIPODATO); }
 
 
 
@@ -65,7 +77,8 @@ ES			[:space:]
 "todos"			{  return(TODOS); }
 "repite"		{  return(REPITE); }
 "paraCada"		{  return(PARACADA); }
-"si"			{  return(SI); }
+"si"			{ printf("Retorna si"); return(SI); }
+"finsi"			{ printf("Retorna finsi"); return(FINSI); }
 "no"			{  return(NO); /*POR QUE NO MANEJAMOS ESTO COMO !=*/}
 "es"			{  return(ES); /*POR QUE NO MANEJAMOS ESTO COMO UN ==?*/}
 "mientras"		{  return(MIENTRAS); }
@@ -94,6 +107,8 @@ ES			[:space:]
 						return id;
 					}
 				}
+
+
 "\""			{  return('"'); }
 [,]			{  return(','); }
 [>]			{  return( *yytext); }
