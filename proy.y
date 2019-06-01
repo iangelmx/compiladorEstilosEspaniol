@@ -24,7 +24,7 @@ int auxiliarConteo = 0;
 %token TODOS REPITE PARACADA SI NO ES MIENTRAS
 %token AGREGAATRIBUTO CLONAATRIBUTO MODIFICAATRIBUTO QUITAATRIBUTO
 %token EQ_COMP MAYEQ_COMP MENEQ_COMP
-%token H COMENTARIO
+%token H COMENTARIO CIERRASELECTOR
 
 
 %token <int>  BORDE ANCHO ALTO MARGEN TIPODATO D
@@ -71,7 +71,7 @@ declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n
 ;
 
 declaracion:
-TIPODATO id	{  
+TIPODATO id	{ 
 							s = creaVariable($2, $1); 
 							$$ = s;
 							printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
@@ -82,7 +82,12 @@ instruccion:
 colocacion
 |asociacion
 |eliminacion
+|cierraComponente
 |funciones
+;
+
+cierraComponente:
+identificador '.' CIERRASELECTOR	{ imprimeValores( $1 ); }
 ;
 
 asociacion:
@@ -106,7 +111,7 @@ REPITE NUM '{' instruccion '}'
 ;
 
 eliminacion:
-identificador QUITAATRIBUTO '(' especificacion ')'
+identificador QUITAATRIBUTO '(' ATTR ')'
 |identificador QUITAATRIBUTO '(' TODOS ')'
 ;
 
@@ -126,8 +131,8 @@ identificador '.' AGREGAATRIBUTO '(' especificaciones ')'	{
 			printf("Variable no declarada"); yyerrok;
 		}
 	}
-|identificador '.' MODIFICAATRIBUTO '(' especificacion ')'
-|identificador '.' CLONAATRIBUTO '(' especificacion ')'
+|identificador '.' MODIFICAATRIBUTO '(' especificaciones ')'
+|identificador '.' CLONAATRIBUTO '(' especificaciones ')'
 ;
 
 especificaciones:
@@ -135,13 +140,10 @@ ATTR '=' valor	{
 	auxiliarConteo++;
 	switch( $1 ){
 		case FUENTE:
-			printf("B_Me pareció ver un lindo gatito\n");
 			if($3->tipo == 1){
 				printf("Tipo de valor: %d\n", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
-				//printf("Valor a copiar: >%s<", $3->valorStr);
 				strcpy (s->value.valFuente,$3->valorStr);
-				//printf("Pasó el strcpy\n");
 				$$ = s;
 			}
 		break;

@@ -79,6 +79,7 @@ extern void cleanStruct( symrec *s );
 extern void printProperties( symrec *s );
 extern valores* creaValores();
 extern symrec *creaSimbolAux(int auxiliarConteo, int tipoDato);
+extern void imprimeValores(symrec *elemento);
 //extern YYSTYPE yylval;
 
 symrec *putsym (char const *, int);
