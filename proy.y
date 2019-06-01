@@ -62,15 +62,15 @@ input:
 
 line:
 '\n'
-| exp '\n'   { printf ("R = %d ;\n", $1->type); }
+| exp '\n'   { /*printf ("R = %d ;\n", $1->type);*/ }
 | error '\n' { yyerrok;                }
 ;
 
 
 exp:
-declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));}
-|	instruccion ';' 				{printf("B_Vi una INSTR...\n\n");}
-| seleccion						{printf( "Vi una sentencia de seleccion" );}
+declaracion ';'			{ $$ = $1; /*printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));*/}
+|	instruccion ';' 				{/*printf("B_Vi una INSTR...\n\n");*/}
+| seleccion						{/*printf( "Vi una sentencia de seleccion" );*/}
 ;
 
 seleccion:
@@ -109,7 +109,7 @@ declaracion:
 TIPODATO id	{ 
 							s = creaVariable($2, $1); 
 							$$ = s;
-							printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
+							//printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
 						}
 ;
 
@@ -149,14 +149,14 @@ identificador QUITAATRIBUTO '(' ATTR ')'
 
 colocacion:
 identificador '.' AGREGAATRIBUTO '(' especificaciones ')'			{
-																																printf("El valor especificaciones es: %s.-.-.-.-.-.-", $5->value.valFuente);
+																																/*printf("El valor especificaciones es: %s.-.-.-.-.-.-", $5->value.valFuente);
 																																printf("B_Detecté una oper agregaatrr\n");
-																																printf("El valor agregado fuente fue: %s <<<<<<<", $5->value.valFuente);
+																																printf("El valor agregado fuente fue: %s <<<<<<<", $5->value.valFuente);*/
 																																verificaTiposYAsigna($1, $5);
 
 																																}
 |identificador '.' MODIFICAATRIBUTO '(' especificaciones ')'		{
-																																		printf("B_Detecté una oper modificaAttr\n");
+																																		//printf("B_Detecté una oper modificaAttr\n");
 																																		verificaTiposYAsigna($1, $5);
 																																}
 |identificador '.' CLONAATRIBUTO '(' identificador ',' ATTR ')'	
@@ -164,7 +164,7 @@ identificador '.' AGREGAATRIBUTO '(' especificaciones ')'			{
 
 especificaciones:
 ATTR '=' valor	{
-	printf("165 especificaciones") ;
+	//printf("165 especificaciones") ;
 	auxiliarConteo++;
 	switch( $1 ){
 		case FUENTE:
@@ -297,14 +297,12 @@ int main (int argc, char const* argv[])
 
 
 void verificaTiposYAsigna(symrec *a, symrec *b){
-	printf("Llega a verificaTipos y Asigna");
+	//printf("Llega a verificaTipos y Asigna");
 		if(a->type == b->type){
-			printf("Está aquí 303");
 			incluyeNuevaPropiedad(a, b);
 			printf("Se supone que se añadió el nuevo atributo");
 		}
 		else if((a->type == CAJA_Y_TABLA || a->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA) ){
-			printf("Está aquí 308");
 			incluyeNuevaPropiedad(a, b);
 			printf("Se supone que se añadió UN nuevo atributo");
 		}

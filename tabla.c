@@ -1,4 +1,5 @@
 #include "tabla.h"
+#include "proy.tab.h"
 
 symrec *sym_table;
 
@@ -41,8 +42,9 @@ symrec *getsym (char const *sym_name)
   for (ptr = sym_table; ptr != (symrec *) 0; ptr = (symrec *)ptr->next)
     if (strcmp (ptr->name, sym_name) == 0)
       return ptr;
-    else
-      printf("Este no es: %s\n", ptr->name);
+    //else
+      //printf("Este no es: %s\n", ptr->name);
+
   return 0;
 }
 
@@ -147,9 +149,10 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
 }
 
 void cierraSelector(symrec *s){
+	printf("valor var: %s\nfuente: %s\n", s->name, s->value.valFuente);
 	printf("%s { \n", s->selector);
 	switch(s->type){
-		case 1:
+		case TEXTO:
 			if(strcmp("", s->value.valFuente) != 0){	
 				printf("font-family: %s;\n", s->value.valFuente);
 		 	}
@@ -172,7 +175,7 @@ void cierraSelector(symrec *s){
 				printf("text-transform: uppercase;\n");
 		 	}	
 		break;	
-		case 2:
+		case CAJA:
 			if( s->value.valAnchura != 0 ){
 				printf("width: %d px;\n", s->value.valAnchura);
 		 	}
@@ -186,7 +189,7 @@ void cierraSelector(symrec *s){
 				printf("background: %d;\n", s->value.valFondo);
 		 	}
 		break;
-		case 3:
+		case TABLA:
 			if( s->value.valAnchura != 0 ){
 				printf("width: %d px;\n", s->value.valAnchura);
 		 	}
@@ -203,15 +206,51 @@ void cierraSelector(symrec *s){
 		case 4:
 			printf("/*No configurado*/");
 		break;
-		case 5:
+		case HIPERVINCULO:
 			if( s->value.valColorVista != 0 ){
 				printf("a:visited {  background-color: #%d;}",s->value.valColorVista);
 			}
-		break;
-		case 6:
 			if( s->value.margen != 0 ){
 				printf("font-weight: bold;\n");
 			}
+			if(strcmp("", s->value.valFuente) != 0){	
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valTamanho != 0 ){
+				printf("font-size: %d;pt\n", s->value.valTamanho);
+		 	}
+			if( s->value.valBoolSubrayado != 0 ){
+				printf("text-decoration: underline\n");
+		 	}
+			if( s->value.valBoolNegrita != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolCursiva != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolTachado != 0 ){
+				printf("text-decoration: line-through;\n");
+		 	}	
+			if( s->value.valBoolMayusculas != 0 ){
+				printf("text-transform: uppercase;\n");
+		 	}
+		break;
+		case IMAGEN:
+			if( s->value.margen != 0 ){
+				printf("font-weight: bold;\n");
+			}
+			if( s->value.valAnchura != 0 ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px\n;", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
 		break;
 		}
 	printf("} \n");
