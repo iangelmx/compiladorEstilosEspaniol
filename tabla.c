@@ -151,8 +151,15 @@ void imprimeValores(symrec *elemento){
 }
 
 void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
-  if( strcmp(origen->value.valFuente)  )
+  if( strcmp(origen->value.valFuente, "") != 0 ){
+    strcpy(destino->valFuente, origen->value.valFuente);
+  }
+  if( origen->value.valAnchura != 0){
+    destino->value.valAnchura = origen->value.valAnchura;
+  }
+  //... Así con todas las variables
 }
+
 /*clonaValores( symrec* s1  symrec* s2 ){
   
 }

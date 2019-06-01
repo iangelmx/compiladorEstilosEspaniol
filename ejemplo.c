@@ -1,13 +1,15 @@
 #include<stdio.h>
-void main(void){
-    void * general;
-    float varuno = 23.2;
-    char *name;
-    printf("Dame el nombre de la variable:\n");
-    scanf("%s", name);
-    float * uno = &varuno;
+#include <string.h>
+#include <stdlib.h>
+int main(int argc, char *argv[]){
+    char *cadena = (char *) malloc(sizeof(char));
+    char *in = (char *) malloc(sizeof(char));
+    int valor;
 
-    general = *(float*)(name);
-
-    printf("El valor de general: %f", *(float*)general);
+    strcpy(cadena, "Hola");
+    printf("Dame la cadena...\n");
+    //scanf("%s", in);
+    valor = strcmp( cadena, "");
+    printf("valor: %d\n\n", valor);
+    return 0;
 }
