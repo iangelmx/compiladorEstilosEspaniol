@@ -30,8 +30,8 @@ int auxiliarConteo = 0;
 
 
 %token BORDE ANCHO ALTO MARGEN D
-%token <int>  TIPODATO   VISIBLE
-%token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA SELECTOR nombreId
+%token <int>  TIPODATO   VISIBLE COLORVISTO COLOR
+%token <char*> FONDO POSICION ALINEACION TIPO RELLENO CADENA SELECTOR nombreId
 %token <symrec*> identificador
 %token <char*> id
 %token <int> ATTR
@@ -184,7 +184,7 @@ ATTR '=' valor	{
 		break;
 		case FONDO:
 			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
-			strcpy (s->value.valFondo, $3->valorStr);
+			s->value.valFondo, $3->valorInt;
 			 //Para cajas y tablas.
 			$$ = s;
 		break;
@@ -207,7 +207,7 @@ ATTR '=' valor	{
 		break;
 		case COLORVISTO:
 			s = creaSimbolAux(auxiliarConteo, HIPERVINCULO);
-			strcpy (s->value.valColorVista, $3->valorStr);
+			s->value.valColorVista, $3->valorInt;
 			$$ = s;
 		break;
 		case MARGEN:
@@ -222,7 +222,7 @@ ATTR '=' valor	{
 		break;
 		case COLOR:
 			s = creaSimbolAux(auxiliarConteo, CAJA_TABLA_TEXTO_LISTA_HIPERV);
-			strcpy (s->value.color, $3->valorStr);
+			s->value.color, $3->valorInt;
 			$$ = s;
 		break;
 		case ANCHO:

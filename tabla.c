@@ -22,14 +22,14 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valAnchura = 0;
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
-  ptr->value.valFondo = (char *) malloc (sizeof (char) );
-  ptr->value.valFondoImg = (char *) malloc (sizeof (char) );
+  ptr->value.valFondo = 0;
+  ptr->value.valFondoImg = 0;
   ptr->value.valPosicion = (char *) malloc (sizeof (char) );
   ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
-  ptr->value.valColorVista = (char *) malloc (sizeof (char) );
+  ptr->value.valColorVista = 0;
   ptr->value.margen = (char *) malloc (sizeof (char) );
   ptr->value.valVisibilidad = 0;
-  ptr->value.color = (char *) malloc (sizeof (char) );
+  ptr->value.color = 0;
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -105,14 +105,14 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valAnchura = 0;
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
-  strcpy( ptr->value.valFondo , "" );
-  strcpy( ptr->value.valFondoImg , "" );
+  ptr->value.valFondo =0;
+  ptr->value.valFondoImg =0;
   strcpy( ptr->value.valPosicion , "" );
   strcpy( ptr->value.valAlineacion , "" );
-  strcpy( ptr->value.valColorVista , "" );
+  ptr->value.valColorVista =0;
   strcpy( ptr->value.margen , "" );
   ptr->value.valVisibilidad = 0;
-  strcpy( ptr->value.color , "" );
+  ptr->value.color =0;
   ptr->next = NULL;
 }
 
@@ -173,7 +173,7 @@ void cierraSelector(symrec *s){
 		 	}	
 		break;	
 		case 2:
-			if( s->value.valAnchura != "" ){
+			if( s->value.valAnchura != 0 ){
 				printf("width: %d px;\n", s->value.valAnchura);
 		 	}
 			if( s->value.valAltura != 0 ){
@@ -187,7 +187,7 @@ void cierraSelector(symrec *s){
 		 	}
 		break;
 		case 3:
-			if( s->value.valAnchura != "" ){
+			if( s->value.valAnchura != 0 ){
 				printf("width: %d px;\n", s->value.valAnchura);
 		 	}
 			if( s->value.valAltura != 0 ){
@@ -197,7 +197,7 @@ void cierraSelector(symrec *s){
 				printf("border: %d px;\n", s->value.valBorde);
 		 	}
 			if( s->value.valFondo != 0 ){
-				printf("background: %d;\n", s->value.valFondo);
+				printf("background: #%d;\n", s->value.valFondo);
 		 	}
 		break;
 		case 4:
@@ -205,7 +205,7 @@ void cierraSelector(symrec *s){
 		break;
 		case 5:
 			if( s->value.valColorVista != 0 ){
-				printf("a:visited {  background-color: %s;}",s->value.valColorVista);
+				printf("a:visited {  background-color: #%d;}",s->value.valColorVista);
 			}
 		break;
 		case 6:
@@ -242,14 +242,14 @@ void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
 	if(origen->value.valAnchura!=0){	
 		destino->value.valAnchura = origen->value.valAnchura;
 	}
-	if(origen->value.valAltura!=0){	
+	if(origen->value.valAltura !=0){	
 		destino->value.valAltura = origen->value.valAltura;
 	}
-	if(origen->value.valBorde!=0){	
+	if(origen->value.valBorde !=0){	
 		destino->value.valBorde = origen->value.valBorde;
 	}
-	if(strcmp(origen->value.valFondo, "")!=0){	
-		strcpy(destino->value.valFondo, origen->value.valFondo);
+	if(origen->value.valFondo !=0){	
+		destino->value.valFondo, origen->value.valFondo;
 	}
 	if(strcmp(origen->value.valFondoImg, "")!=0){	
 		strcpy(destino->value.valFondoImg, origen->value.valFondoImg);
@@ -260,8 +260,8 @@ void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
 	if(strcmp(origen->value.valAlineacion, "")!=0){	
 		strcpy(destino->value.valAlineacion, origen->value.valAlineacion);
 	}
-	if(strcmp(origen->value.valColorVista, "")!=0){	
-		strcpy(destino->value.valColorVista, origen->value.valColorVista);
+	if(origen->value.valColorVista !=0){	
+		destino->value.valColorVista, origen->value.valColorVista;
 	}
 	if(strcmp(origen->value.margen, "")!=0){	
 		strcpy(destino->value.margen, origen->value.margen);
@@ -269,8 +269,8 @@ void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
 	if(origen->value.valVisibilidad!=0){	
 		destino->value.valVisibilidad = origen->value.valVisibilidad;
 	}
-	if(strcmp(origen->value.color, "")!=0){	
-		strcpy(destino->value.color, origen->value.color);
+	if(origen->value.color !=0){	
+		destino->value.color, origen->value.color;
 	}
 
 }

@@ -40,14 +40,14 @@ struct valorVar{
     int valAnchura;
     int valAltura;
     int valBorde;
-    char *valFondo;
+    int valFondo;
     char *valFondoImg;
     char *valPosicion;
     char *valAlineacion;
-    char *valColorVista;
+    int valColorVista;
     char *margen;
     int valVisibilidad;
-    char *color;
+    int color;
 };
 typedef struct valorVar datos;
 
