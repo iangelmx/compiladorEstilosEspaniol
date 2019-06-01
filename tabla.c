@@ -11,8 +11,8 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->compatible = 0;
   ptr->selector = (char *) malloc (sizeof (char) );
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
-  ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
-  ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
+  ptr->value.valorStr = (char *) malloc (sizeof (char) ); /* Set value to 0 even if fctn.  */
+  ptr->value.valFuente = (char *) malloc (sizeof (char) );
   ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
@@ -23,7 +23,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
   ptr->value.valFondo = 0;
-  ptr->value.valFondoImg = 0;
+  ptr->value.valFondoImg = (char *) malloc (sizeof (char) );
   ptr->value.valPosicion = (char *) malloc (sizeof (char) );
   ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
   ptr->value.valColorVista = 0;
@@ -106,7 +106,7 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
   ptr->value.valFondo =0;
-  ptr->value.valFondoImg =0;
+	strcpy( ptr->value.valFondoImg, "" );
   strcpy( ptr->value.valPosicion , "" );
   strcpy( ptr->value.valAlineacion , "" );
   ptr->value.valColorVista =0;
@@ -218,9 +218,13 @@ void cierraSelector(symrec *s){
 }
 
 void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
+
+
+	
 	if(strcmp(origen->value.valFuente, "")!=0){	
 		strcpy(destino->value.valFuente, origen->value.valFuente);
 	}
+	
 	if(origen->value.valTamanho!=0){	
 		destino->value.valTamanho = origen->value.valTamanho;
 	}
