@@ -1,1 +1,2 @@
-cass.agregaAtributo(fuente="Arial");
+texto parrafo;
+parrafo.agregaAtributo(fuente="Arial");
