@@ -127,7 +127,7 @@ identificador '.' CIERRASELECTOR	{ cierraSelector( $1 ); }
 
 asociacion:
 identificador '.' SELECTOR '=' valor {
-	printf("What?");
+	//printf("What?");
 	if( $5->tipo==1 ){
 		s = $1;
 		strcpy( s->selector, $5->valorStr );
@@ -300,11 +300,11 @@ void verificaTiposYAsigna(symrec *a, symrec *b){
 	//printf("Llega a verificaTipos y Asigna");
 		if(a->type == b->type){
 			incluyeNuevaPropiedad(a, b);
-			printf("Se supone que se añadió el nuevo atributo");
+			//printf("Se supone que se añadió el nuevo atributo");
 		}
-		else if((a->type == CAJA_Y_TABLA || a->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA) ){
+		else if((b->type == CAJA_Y_TABLA || b->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA || a->type==IMAGEN) ){
 			incluyeNuevaPropiedad(a, b);
-			printf("Se supone que se añadió UN nuevo atributo");
+			//printf("Se supone que se añadió UN nuevo atributo");
 		}
 		else{
 			printf("AttributeError: Tipos de dato incompatibles: %d y %d\n\n", a->type, b->type);

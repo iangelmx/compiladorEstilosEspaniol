@@ -29,6 +29,7 @@ ES			[:space:]
 						}
 \n                      { return '\n'; }
 [ ]
+\r
 [-n+*/^=(){}.:]                { /*printf("retorna glifo: ->%s<- \n", yytext)*/; return *yytext;  }
 [;]						{/*printf("Vi un ;\n");	*/return ';';}
 [|]						{return '|';}

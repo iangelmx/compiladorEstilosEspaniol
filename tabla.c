@@ -149,7 +149,7 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
 }
 
 void cierraSelector(symrec *s){
-	printf("valor var: %s\nfuente: %s\n", s->name, s->value.valFuente);
+	//printf("valor var: %s\nfuente: %s\n", s->name, s->value.valFuente);
 	printf("%s { \n", s->selector);
 	switch(s->type){
 		case TEXTO:
@@ -250,6 +250,9 @@ void cierraSelector(symrec *s){
 		 	}
 			if( s->value.valFondo != 0 ){
 				printf("background: %d;\n", s->value.valFondo);
+		 	}
+			 if( strcmp("", s->value.valFondoImg) != 0){
+				printf("background-image: url(\"%s\");\n", s->value.valFondoImg);
 		 	}
 		break;
 		}
