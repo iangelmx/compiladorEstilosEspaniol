@@ -126,13 +126,13 @@ identificador '.' CIERRASELECTOR	{ cierraSelector( $1 ); }
 ;
 
 asociacion:
-identificador '.' SELECTOR '=' valor {
+identificador '.' SELECTOR '=' '"' valor '"' {
 	printf("What?");
 	if( $5->tipo==1 ){
 		s = $1;
 		strcpy( s->selector, $5->valorStr );
 	}else{
-		printf("AttributeError: El selector debe ser una cadena\n");
+		printf("AttributeError: El selector debe ser una cadena\n");/*hace*/
 		s->compatible=-1;
 	}
 }
