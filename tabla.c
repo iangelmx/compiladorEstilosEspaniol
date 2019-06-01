@@ -9,6 +9,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   strcpy (ptr->name,sym_name);
   ptr->type = sym_type;
   ptr->compatible = 0;
+  ptr->selector = (char *) malloc (sizeof (char) );
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
   ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
@@ -144,7 +145,7 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
 }
 
 void imprimeValores(symrec *elemento){
-  
+
 }
 
 /*clonaValores( symrec* s1  symrec* s2 ){

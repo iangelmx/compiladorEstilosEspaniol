@@ -4,3 +4,6 @@ parrafo.agregaAtributo(negritas);
 parrafo.agregaAtributo(cursivas);
 parrafo.agregaAtributo(mayusculas);
 texto.selector = "#id";
+
+texto cass;
+cass.selector = "#id";

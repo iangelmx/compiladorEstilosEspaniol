@@ -91,17 +91,17 @@ identificador '.' CIERRASELECTOR	{ imprimeValores( $1 ); }
 ;
 
 asociacion:
-identificador '.' SELECTOR '=' CADENA {
+identificador '.' SELECTOR '=' valor {
 	printf("What?");
-	printf("B_Cadena detectada: %s\n", $5);
-	printf("B_Se va a buscar: %s\n", $1->name);
-	s = getsym( $1->name );
-	if(s){
-		s->selector = $5;
-		printf("%s{}\n", $5);
-	}
-	else{
-		printf("Variable no declarada :/"); yyerrok;
+	if( $5->tipo==1 ){
+		printf("B_Cadena detectada: %s\n", $5->valorStr);
+		s = $1;
+		strcpy( s->selector, $5->valorStr );
+		printf("Pasó strcpy \n");
+		
+	}else{
+		printf("Tipo incompatible");
+		s->compatible=-1;
 	}
 }
 ;

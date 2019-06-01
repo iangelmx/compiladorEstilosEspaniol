@@ -84,7 +84,7 @@ ES			[:space:]
 					symrec *s = getsym(yytext);
 					if(s){
 						yylval.identificador = s;
-						//printf("Retorna identificador symrec\n");
+						printf("Retorna identificador symrec\n");
 						return identificador;
 					}
 					else{
