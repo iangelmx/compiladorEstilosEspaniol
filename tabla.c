@@ -121,3 +121,10 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   s = putsym( pre, tipoDato );
   free(pre);
 }
+clonaValores( symrec* s1  symrec* s2 ){
+
+}
+
+imprimeCss(){
+
+}
