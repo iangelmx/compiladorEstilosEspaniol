@@ -158,9 +158,6 @@ void cierraSelect(symrec *s){
 			if(strcmp("", s->value.valFuente) != 0){	
 				printf("font-family: %s;\n", s->value.valFuente);
 		 	}
-			if( s->value.valFuente != "" ){
-				printf("font-family: %s;\n", s->value.valFuente);
-		 	}
 			if( s->value.valTamanho != 0 ){
 				printf("font-size: %d;\n", s->value.valTamanho);
 		 	}
