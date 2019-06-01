@@ -122,7 +122,7 @@ colocacion
 ;
 
 cierraComponente:
-identificador '.' CIERRASELECTOR	{ imprimeValores( $1 ); }
+identificador '.' CIERRASELECTOR	{ cierraSelector( $1 ); }
 ;
 
 asociacion:
@@ -175,7 +175,7 @@ ATTR '=' valor	{
 		case TAMANHO:
 			if ($3->tipo == 1){
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
-				strcpy (s->value.valTamanho,$3->valorStr);
+				s->value.valTamanho = $3->valorInt;
 				$$ = s;
 			}
 			else{

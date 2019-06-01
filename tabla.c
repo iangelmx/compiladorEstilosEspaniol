@@ -13,7 +13,7 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
   ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
-  ptr->value.valTamanho = (char *) malloc (sizeof (sym_name) + 1);
+  ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -96,7 +96,7 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   strcpy( ptr->value.valorStr, "" );
   strcpy( ptr->value.valFuente, "" );
-  strcpy( ptr->value.valTamanho, "" );
+  ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -146,17 +146,136 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   return s;
 }
 
-void imprimeValores(symrec *elemento){
-
+void cierraSelector(symrec *s){
+	printf("%s { \n", s->selector);
+	switch(s->type){
+		case 1:
+			if(strcmp("", s->value.valFuente) != 0){	
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valTamanho != 0 ){
+				printf("font-size: %d;pt\n", s->value.valTamanho);
+		 	}
+			if( s->value.valBoolSubrayado != 0 ){
+				printf("text-decoration: underline\n");
+		 	}
+			if( s->value.valBoolNegrita != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolCursiva != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolTachado != 0 ){
+				printf("text-decoration: line-through;\n");
+		 	}	
+			if( s->value.valBoolMayusculas != 0 ){
+				printf("text-transform: uppercase;\n");
+		 	}	
+		break;	
+		case 2:
+			if( s->value.valAnchura != "" ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px\n;", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+		break;
+		case 3:
+			if( s->value.valAnchura != "" ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px;\n", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+		break;
+		case 4:
+			printf("/*No configurado*/");
+		break;
+		case 5:
+			if( s->value.valColorVista != 0 ){
+				printf("a:visited {  background-color: %s;}",s->value.valColorVista);
+			}
+		break;
+		case 6:
+			if( s->value.margen != 0 ){
+				printf("font-weight: bold;\n");
+			}
+		break;
+		}
+	printf("} \n");
 }
 
 void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
-  if( strcmp(origen->value.valFuente)  )
-}
-/*clonaValores( symrec* s1  symrec* s2 ){
-  
+	if(strcmp(origen->value.valFuente, "")!=0){	
+		strcpy(destino->value.valFuente, origen->value.valFuente);
+	}
+	if(origen->value.valTamanho!=0){	
+		destino->value.valTamanho = origen->value.valTamanho;
+	}
+	if(origen->value.valBoolSubrayado!=0){	
+		destino->value.valBoolSubrayado = origen->value.valBoolSubrayado;
+	}
+	if(origen->value.valBoolNegrita!=0){	
+		destino->value.valBoolNegrita = origen->value.valBoolNegrita;
+	}
+	if(origen->value.valBoolCursiva!=0){	
+		destino->value.valBoolCursiva = origen->value.valBoolCursiva;
+	}
+	if(origen->value.valBoolTachado!=0){	
+		destino->value.valBoolTachado = origen->value.valBoolTachado;
+	}
+	if(origen->value.valBoolMayusculas!=0){	
+		destino->value.valBoolMayusculas = origen->value.valBoolMayusculas;
+	}
+	if(origen->value.valAnchura!=0){	
+		destino->value.valAnchura = origen->value.valAnchura;
+	}
+	if(origen->value.valAltura!=0){	
+		destino->value.valAltura = origen->value.valAltura;
+	}
+	if(origen->value.valBorde!=0){	
+		destino->value.valBorde = origen->value.valBorde;
+	}
+	if(strcmp(origen->value.valFondo, "")!=0){	
+		strcpy(destino->value.valFondo, origen->value.valFondo);
+	}
+	if(strcmp(origen->value.valFondoImg, "")!=0){	
+		strcpy(destino->value.valFondoImg, origen->value.valFondoImg);
+	}
+	if(strcmp(origen->value.valPosicion, "")!=0){	
+		strcpy(destino->value.valPosicion, origen->value.valPosicion);
+	}
+	if(strcmp(origen->value.valAlineacion, "")!=0){	
+		strcpy(destino->value.valAlineacion, origen->value.valAlineacion);
+	}
+	if(strcmp(origen->value.valColorVista, "")!=0){	
+		strcpy(destino->value.valColorVista, origen->value.valColorVista);
+	}
+	if(strcmp(origen->value.margen, "")!=0){	
+		strcpy(destino->value.margen, origen->value.margen);
+	}
+	if(origen->value.valVisibilidad!=0){	
+		destino->value.valVisibilidad = origen->value.valVisibilidad;
+	}
+	if(strcmp(origen->value.color, "")!=0){	
+		strcpy(destino->value.color, origen->value.color);
+	}
+
 }
 
-imprimeCss(){
 
-}*/
+
+
+

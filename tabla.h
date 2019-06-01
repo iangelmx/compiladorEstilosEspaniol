@@ -31,7 +31,7 @@ struct valorVar{
     int valorInt;
     func_t fnctptr;  /* value of a FNCT */
     char *valFuente;
-    char *valTamanho;
+    int valTamanho;
     int valBoolSubrayado;
     int valBoolNegrita;
     int valBoolCursiva;
@@ -80,7 +80,7 @@ extern void cleanStruct( symrec *s );
 extern void printProperties( symrec *s );
 extern valores* creaValores();
 extern symrec *creaSimbolAux(int auxiliarConteo, int tipoDato);
-extern void imprimeValores(symrec *elemento);
+extern void cierraSelector(symrec *s);
 extern void incluyeNuevaPropiedad(symrec *destino , symrec *origen);
 //extern YYSTYPE yylval;
 

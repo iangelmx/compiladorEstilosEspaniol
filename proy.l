@@ -65,7 +65,7 @@ ES			[:space:]
 "margen"		{ yylval.ATTR=MARGEN; return(ATTR); }
 "visible"		{ yylval.ATTR=VISIBLE; return(ATTR); }
 "color"			{ yylval.ATTR=COLOR; return(ATTR); }
-"fondoImagen"	{ yylval.ATTR=FONDOIMG; return(ATTR); }
+"fondoImagen"		{ yylval.ATTR=FONDOIMG; return(ATTR); }
 
 "selector"		{ printf("Vi selector\n"); return (SELECTOR); }
 "agregaAtributo"	{ printf("Rertorna: agregaAtributo\n"); return(AGREGAATRIBUTO); }
