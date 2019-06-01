@@ -102,8 +102,8 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
-  strcpy( ptr->value.valAnchura , "" );
-  strcpy( ptr->value.valAltura , "" );
+  strcpy( ptr->value.valAnchura , 0 );
+  strcpy( ptr->value.valAltura , 0 );
   strcpy( ptr->value.valBorde , "" );
   strcpy( ptr->value.valFondo , "" );
   strcpy( ptr->value.valFondoImg , "" );
@@ -148,7 +148,29 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
 
 
 void incluyeNuevaPropiedad(symrec *destino , sym_name *origen){
-
+	strcpy( ptr->name, "" );
+	ptr->compatible = 0;
+	ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
+	strcpy( ptr->value.valorStr, "" );
+	strcpy( ptr->value.valFuente, "" );
+	strcpy( ptr->value.valTamanho, "" );
+	ptr->value.valBoolSubrayado =0;
+	ptr->value.valBoolNegrita = 0;
+	ptr->value.valBoolCursiva = 0;
+	ptr->value.valBoolTachado = 0;
+	ptr->value.valBoolMayusculas= 0; 
+	strcpy( ptr->value.valAnchura , 0 );
+	strcpy( ptr->value.valAltura , 0 );
+	strcpy( ptr->value.valBorde , "" );
+	strcpy( ptr->value.valFondo , "" );
+	strcpy( ptr->value.valFondoImg , "" );
+	strcpy( ptr->value.valPosicion , "" );
+	strcpy( ptr->value.valAlineacion , "" );
+	strcpy( ptr->value.valColorVista , "" );
+	strcpy( ptr->value.margen , "" );
+	ptr->value.valVisibilidad = 0;
+	strcpy( ptr->value.color , "" );
+	ptr->next = NULL;
 }
 
 void cierraSelect(symrec *s){

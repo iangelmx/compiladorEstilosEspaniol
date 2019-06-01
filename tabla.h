@@ -37,8 +37,8 @@ struct valorVar{
     int valBoolCursiva;
     int valBoolTachado;
     int valBoolMayusculas;
-    char *valAnchura;
-    char *valAltura;
+    int valAnchura;
+    int valAltura;
     char *valBorde;
     char *valFondo;
     char *valFondoImg;
