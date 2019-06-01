@@ -135,11 +135,12 @@ ATTR '=' valor	{
 	auxiliarConteo++;
 	switch( $1 ){
 		case FUENTE:
-			printf("B_Me pareció ver un lindo gatito");
+			printf("B_Me pareció ver un lindo gatito\n");
 			if($3->tipo == 1){
+				printf("Tipo de valor: %d", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
-				strcpy (s->value.valFuente,$3->valorStr);
-				$$ = s;
+				/*strcpy (s->value.valFuente,$3->valorStr);
+				$$ = s;*/
 			}
 		break;
 		case TAMANHO:
@@ -185,7 +186,7 @@ ATTR '=' valor	{
 }
 ;
 
-/*especificacion: 
+especificacion: 
 DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
 |FUENTE '=' CADENA						{ 
 															

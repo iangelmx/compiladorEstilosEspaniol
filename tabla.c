@@ -18,6 +18,16 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
+  ptr->valAnchura = (char *) malloc (strlen (char) + 1);
+  ptr->valAltura = (char *) malloc (strlen (char) + 1);
+  ptr->valBorde = (char *) malloc (strlen (char) + 1);
+  ptr->valFondo = (char *) malloc (strlen (char) + 1);
+  ptr->valPosicion = (char *) malloc (strlen (char) + 1);
+  ptr->valAlineacion = (char *) malloc (strlen (char) + 1);
+  ptr->valColorVista = (char *) malloc (strlen (char) + 1);
+  ptr->margen = (char *) malloc (strlen (char) + 1);
+  ptr->valVisibilidad = 0;
+  ptr->color = (char *) malloc (strlen (char) + 1);
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -90,6 +100,16 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valBoolCursiva = 0;
   ptr->value.valBoolTachado = 0;
   ptr->value.valBoolMayusculas= 0; 
+  strcpy( ptr->valAnchura , "" );
+  strcpy( ptr->valAltura , "" );
+  strcpy( ptr->valBorde , "" );
+  strcpy( ptr->valFondo , "" );
+  strcpy( ptr->valPosicion , "" );
+  strcpy( ptr->valAlineacion , "" );
+  strcpy( ptr->valColorVista , "" );
+  strcpy( ptr->margen , "" );
+  ptr->valVisibilidad = 0;
+  strcpy( ptr->color , "" );
   ptr->next = NULL;
 }
 
@@ -121,10 +141,11 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   s = putsym( pre, tipoDato );
   free(pre);
 }
-clonaValores( symrec* s1  symrec* s2 ){
 
+/*clonaValores( symrec* s1  symrec* s2 ){
+  
 }
 
 imprimeCss(){
 
-}
+}*/

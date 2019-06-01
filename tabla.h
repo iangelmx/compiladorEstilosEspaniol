@@ -36,7 +36,17 @@ struct valorVar{
     int valBoolNegrita;
     int valBoolCursiva;
     int valBoolTachado;
-    int valBoolMayusculas;    
+    int valBoolMayusculas;
+    char *valAnchura;
+    char *valAltura;
+    char *valBorde;
+    char *valFondo;
+    char *valPosicion;
+    char *valAlineacion;
+    char *valColorVista;
+    char *margen;
+    int valVisibilidad;
+    char *color;
 };
 typedef struct valorVar datos;
 
