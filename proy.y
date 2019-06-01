@@ -148,7 +148,7 @@ ATTR '=' valor	{
  }
 ;
 
-especificacion: 
+/*especificacion: 
 DIRECCION '=' CADENA					{ printf("Vi Direccion y cadena: %s\n", $3);	}
 |FUENTE '=' CADENA						{ 
 																

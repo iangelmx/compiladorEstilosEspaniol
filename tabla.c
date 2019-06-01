@@ -111,3 +111,11 @@ valores* creaValores(){
   ptr->valorDouble = 0;
   ptr->tipo = 0;
 }
+
+clonaValores( symrec* s1  symrec* s2 ){
+
+}
+
+imprimeCss(){
+
+}
