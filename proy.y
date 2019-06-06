@@ -43,6 +43,8 @@ int auxiliarConteo = 0;
 %type <symrec*>	declaracion
 %type <symrec*> especificaciones
 %type <double> expresion
+%type <symrec*> line
+%type <symrec*> seleccion
 
 
 
@@ -76,8 +78,11 @@ declaracion ';'			{ $$ = $1; /*printf("B_Vi una declaración UP, declaracion: %d
 seleccion:
 	SI '(' expresion ')' ':' line FINSI			{	  if( $3 == 1 ){
 																								printf("B_IF TRUE\n");
+																								$6->compatible = -1;
+																								$$ = $6;
 																							}else{
 																								printf("B_IF False\n");
+																								$$ = NULL;
 																							}
 																						}
 ;
@@ -303,6 +308,7 @@ void verificaTiposYAsigna(symrec *a, symrec *b){
 			//printf("Se supone que se añadió el nuevo atributo");
 		}
 		else if((b->type == CAJA_Y_TABLA || b->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA || a->type==IMAGEN) ){
+
 			incluyeNuevaPropiedad(a, b);
 			//printf("Se supone que se añadió UN nuevo atributo");
 		}

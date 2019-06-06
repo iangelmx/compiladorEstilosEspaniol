@@ -261,7 +261,6 @@ void cierraSelector(symrec *s){
 
 void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
 
-
 	
 	if(strcmp(origen->value.valFuente, "")!=0){	
 		strcpy(destino->value.valFuente, origen->value.valFuente);
@@ -319,7 +318,7 @@ void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
 		destino->value.color, origen->value.color;
 	}
 
-}
+
 
 
 

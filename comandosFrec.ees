@@ -24,3 +24,11 @@ uno.agregaAtributo(borde=5);
 uno.agregaAtributo(alto=20);
 
 uno.cierraSelector;
+texto parrafos;
+si (parrafos.fuente = 1): texto casss;
+si (parrafos.negritas = 1): texto casss;
+
+si (uno.ancho = 10):
+texto parrafos;
+finsi
+
