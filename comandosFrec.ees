@@ -1,13 +1,29 @@
 texto parrafo;
+
 parrafo.agregaAtributo(fuente="Arial");
+
 parrafo.agregaAtributo(negritas);
+
 parrafo.agregaAtributo(cursivas);
+
 parrafo.agregaAtributo(mayusculas);
-texto.selector = "#id";
 
-texto cass;
-cass.selector = "#id";
+parrafo.selector = "#id";
 
+parrafo.cierraSelector;
+
+
+
+
+
+imagen uno;
+
+uno.agregaAtributo(fondoImagen="https://pds.telmex.com/1.png");
+uno.agregaAtributo(ancho=20);
+uno.agregaAtributo(borde=5);
+uno.agregaAtributo(alto=20);
+
+uno.cierraSelector;
 texto parrafos;
 si (parrafos.fuente = 1): texto casss;
 si (parrafos.negritas = 1): texto casss;
@@ -15,3 +31,4 @@ si (parrafos.negritas = 1): texto casss;
 si (uno.ancho = 10):
 texto parrafos;
 finsi
+

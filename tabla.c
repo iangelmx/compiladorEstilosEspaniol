@@ -1,4 +1,5 @@
 #include "tabla.h"
+#include "proy.tab.h"
 
 symrec *sym_table;
 
@@ -11,9 +12,9 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->compatible = 0;
   ptr->selector = (char *) malloc (sizeof (char) );
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
-  ptr->value.valorStr = (char *) malloc (sizeof (sym_name) + 1); /* Set value to 0 even if fctn.  */
-  ptr->value.valFuente = (char *) malloc (sizeof (sym_name) + 1);
-  ptr->value.valTamanho = (char *) malloc (sizeof (sym_name) + 1);
+  ptr->value.valorStr = (char *) malloc (sizeof (char) ); /* Set value to 0 even if fctn.  */
+  ptr->value.valFuente = (char *) malloc (sizeof (char) );
+  ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -22,14 +23,14 @@ symrec *putsym (char const *sym_name, int sym_type)
   ptr->value.valAnchura = 0;
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
-  ptr->value.valFondo = (char *) malloc (sizeof (char) );
+  ptr->value.valFondo = 0;
   ptr->value.valFondoImg = (char *) malloc (sizeof (char) );
   ptr->value.valPosicion = (char *) malloc (sizeof (char) );
   ptr->value.valAlineacion = (char *) malloc (sizeof (char) );
-  ptr->value.valColorVista = (char *) malloc (sizeof (char) );
+  ptr->value.valColorVista = 0;
   ptr->value.margen = (char *) malloc (sizeof (char) );
   ptr->value.valVisibilidad = 0;
-  ptr->value.color = (char *) malloc (sizeof (char) );
+  ptr->value.color = 0;
   ptr->next = (struct symrec *)sym_table;
   sym_table = ptr;
   return ptr;
@@ -41,8 +42,9 @@ symrec *getsym (char const *sym_name)
   for (ptr = sym_table; ptr != (symrec *) 0; ptr = (symrec *)ptr->next)
     if (strcmp (ptr->name, sym_name) == 0)
       return ptr;
-    else
-      printf("Este no es: %s\n", ptr->name);
+    //else
+      //printf("Este no es: %s\n", ptr->name);
+
   return 0;
 }
 
@@ -96,7 +98,7 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valorInt = 0; /* Set value to 0 even if fctn.  */
   strcpy( ptr->value.valorStr, "" );
   strcpy( ptr->value.valFuente, "" );
-  strcpy( ptr->value.valTamanho, "" );
+  ptr->value.valTamanho = 0;
   ptr->value.valBoolSubrayado =0;
   ptr->value.valBoolNegrita = 0;
   ptr->value.valBoolCursiva = 0;
@@ -105,14 +107,14 @@ void cleanStruct( symrec *ptr ){
   ptr->value.valAnchura = 0;
   ptr->value.valAltura = 0;
   ptr->value.valBorde = 0;
-  strcpy( ptr->value.valFondo , "" );
-  strcpy( ptr->value.valFondoImg , "" );
+  ptr->value.valFondo =0;
+	strcpy( ptr->value.valFondoImg, "" );
   strcpy( ptr->value.valPosicion , "" );
   strcpy( ptr->value.valAlineacion , "" );
-  strcpy( ptr->value.valColorVista , "" );
+  ptr->value.valColorVista =0;
   strcpy( ptr->value.margen , "" );
   ptr->value.valVisibilidad = 0;
-  strcpy( ptr->value.color , "" );
+  ptr->value.color =0;
   ptr->next = NULL;
 }
 
@@ -146,24 +148,179 @@ symrec *creaSimbolAux(int auxiliarConteo, int tipoDato){
   return s;
 }
 
-void imprimeValores(symrec *elemento){
-
+void cierraSelector(symrec *s){
+	//printf("valor var: %s\nfuente: %s\n", s->name, s->value.valFuente);
+	printf("%s { \n", s->selector);
+	switch(s->type){
+		case TEXTO:
+			if(strcmp("", s->value.valFuente) != 0){	
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valTamanho != 0 ){
+				printf("font-size: %d;pt\n", s->value.valTamanho);
+		 	}
+			if( s->value.valBoolSubrayado != 0 ){
+				printf("text-decoration: underline\n");
+		 	}
+			if( s->value.valBoolNegrita != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolCursiva != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolTachado != 0 ){
+				printf("text-decoration: line-through;\n");
+		 	}	
+			if( s->value.valBoolMayusculas != 0 ){
+				printf("text-transform: uppercase;\n");
+		 	}	
+		break;	
+		case CAJA:
+			if( s->value.valAnchura != 0 ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px\n;", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+		break;
+		case TABLA:
+			if( s->value.valAnchura != 0 ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px;\n", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: #%d;\n", s->value.valFondo);
+		 	}
+		break;
+		case 4:
+			printf("/*No configurado*/");
+		break;
+		case HIPERVINCULO:
+			if( s->value.valColorVista != 0 ){
+				printf("a:visited {  background-color: #%d;}",s->value.valColorVista);
+			}
+			if( s->value.margen != 0 ){
+				printf("font-weight: bold;\n");
+			}
+			if(strcmp("", s->value.valFuente) != 0){	
+				printf("font-family: %s;\n", s->value.valFuente);
+		 	}
+			if( s->value.valTamanho != 0 ){
+				printf("font-size: %d;pt\n", s->value.valTamanho);
+		 	}
+			if( s->value.valBoolSubrayado != 0 ){
+				printf("text-decoration: underline\n");
+		 	}
+			if( s->value.valBoolNegrita != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolCursiva != 0 ){
+				printf("font-weight: bold;\n");
+		 	}
+			if( s->value.valBoolTachado != 0 ){
+				printf("text-decoration: line-through;\n");
+		 	}	
+			if( s->value.valBoolMayusculas != 0 ){
+				printf("text-transform: uppercase;\n");
+		 	}
+		break;
+		case IMAGEN:
+			if( s->value.margen != 0 ){
+				printf("font-weight: bold;\n");
+			}
+			if( s->value.valAnchura != 0 ){
+				printf("width: %d px;\n", s->value.valAnchura);
+		 	}
+			if( s->value.valAltura != 0 ){
+				printf("height: %d px;\n", s->value.valAltura);
+		 	}
+			if( s->value.valBorde != 0 ){
+				printf("border: %d px\n;", s->value.valBorde);
+		 	}
+			if( s->value.valFondo != 0 ){
+				printf("background: %d;\n", s->value.valFondo);
+		 	}
+			 if( strcmp("", s->value.valFondoImg) != 0){
+				printf("background-image: url(\"%s\");\n", s->value.valFondoImg);
+		 	}
+		break;
+		}
+	printf("} \n");
 }
 
 void incluyeNuevaPropiedad(symrec *destino , symrec *origen){
-  if( strcmp(origen->value.valFuente, "") != 0 ){
-    strcpy(destino->value.valFuente, origen->value.valFuente);
-  }
-  if( origen->value.valAnchura != 0){
-    destino->value.valAnchura = origen->value.valAnchura;
-  }
-  //... Así con todas las variables
-}
 
-/*clonaValores( symrec* s1  symrec* s2 ){
-  
-}
+	
+	if(strcmp(origen->value.valFuente, "")!=0){	
+		strcpy(destino->value.valFuente, origen->value.valFuente);
+	}
+	
+	if(origen->value.valTamanho!=0){	
+		destino->value.valTamanho = origen->value.valTamanho;
+	}
+	if(origen->value.valBoolSubrayado!=0){	
+		destino->value.valBoolSubrayado = origen->value.valBoolSubrayado;
+	}
+	if(origen->value.valBoolNegrita!=0){	
+		destino->value.valBoolNegrita = origen->value.valBoolNegrita;
+	}
+	if(origen->value.valBoolCursiva!=0){	
+		destino->value.valBoolCursiva = origen->value.valBoolCursiva;
+	}
+	if(origen->value.valBoolTachado!=0){	
+		destino->value.valBoolTachado = origen->value.valBoolTachado;
+	}
+	if(origen->value.valBoolMayusculas!=0){	
+		destino->value.valBoolMayusculas = origen->value.valBoolMayusculas;
+	}
+	if(origen->value.valAnchura!=0){	
+		destino->value.valAnchura = origen->value.valAnchura;
+	}
+	if(origen->value.valAltura !=0){	
+		destino->value.valAltura = origen->value.valAltura;
+	}
+	if(origen->value.valBorde !=0){	
+		destino->value.valBorde = origen->value.valBorde;
+	}
+	if(origen->value.valFondo !=0){	
+		destino->value.valFondo, origen->value.valFondo;
+	}
+	if(strcmp(origen->value.valFondoImg, "")!=0){	
+		strcpy(destino->value.valFondoImg, origen->value.valFondoImg);
+	}
+	if(strcmp(origen->value.valPosicion, "")!=0){	
+		strcpy(destino->value.valPosicion, origen->value.valPosicion);
+	}
+	if(strcmp(origen->value.valAlineacion, "")!=0){	
+		strcpy(destino->value.valAlineacion, origen->value.valAlineacion);
+	}
+	if(origen->value.valColorVista !=0){	
+		destino->value.valColorVista, origen->value.valColorVista;
+	}
+	if(strcmp(origen->value.margen, "")!=0){	
+		strcpy(destino->value.margen, origen->value.margen);
+	}
+	if(origen->value.valVisibilidad!=0){	
+		destino->value.valVisibilidad = origen->value.valVisibilidad;
+	}
+	if(origen->value.color !=0){	
+		destino->value.color, origen->value.color;
+	}
 
-imprimeCss(){
 
-}*/
+
+
+
+
+

@@ -30,8 +30,8 @@ int auxiliarConteo = 0;
 
 
 %token BORDE ANCHO ALTO MARGEN D
-%token <int>  TIPODATO   VISIBLE
-%token <char*> FONDO POSICION ALINEACION TIPO COLORVISTO RELLENO COLOR CADENA SELECTOR nombreId
+%token <int>  TIPODATO   VISIBLE COLORVISTO COLOR
+%token <char*> FONDO POSICION ALINEACION TIPO RELLENO CADENA SELECTOR nombreId
 %token <symrec*> identificador
 %token <char*> id
 %token <int> ATTR
@@ -64,15 +64,15 @@ input:
 
 line:
 '\n'
-| exp '\n'   { printf ("R = %d ;\n", $1->type); }
+| exp '\n'   { /*printf ("R = %d ;\n", $1->type);*/ }
 | error '\n' { yyerrok;                }
 ;
 
 
 exp:
-declaracion ';'			{ $$ = $1; printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));}
-|	instruccion ';' 				{printf("B_Vi una INSTR...\n\n");}
-| seleccion						{printf( "Vi una sentencia de seleccion" );}
+declaracion ';'			{ $$ = $1; /*printf("B_Vi una declaración UP, declaracion: %d\n\n", ($1->type));*/}
+|	instruccion ';' 				{/*printf("B_Vi una INSTR...\n\n");*/}
+| seleccion						{/*printf( "Vi una sentencia de seleccion" );*/}
 ;
 
 seleccion:
@@ -114,7 +114,7 @@ declaracion:
 TIPODATO id	{ 
 							s = creaVariable($2, $1); 
 							$$ = s;
-							printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
+							//printf("B_tipo y nombre: %d, %s\n______\n", s->type, s->name);
 						}
 ;
 
@@ -127,17 +127,17 @@ colocacion
 ;
 
 cierraComponente:
-identificador '.' CIERRASELECTOR	{ imprimeValores( $1 ); }
+identificador '.' CIERRASELECTOR	{ cierraSelector( $1 ); }
 ;
 
 asociacion:
 identificador '.' SELECTOR '=' valor {
-	printf("What?");
+	//printf("What?");
 	if( $5->tipo==1 ){
 		s = $1;
 		strcpy( s->selector, $5->valorStr );
 	}else{
-		printf("AttributeError: El selector debe ser una cadena\n");
+		printf("AttributeError: El selector debe ser una cadena\n");/*hace*/
 		s->compatible=-1;
 	}
 }
@@ -154,24 +154,26 @@ identificador QUITAATRIBUTO '(' ATTR ')'
 
 colocacion:
 identificador '.' AGREGAATRIBUTO '(' especificaciones ')'			{
+																																/*printf("El valor especificaciones es: %s.-.-.-.-.-.-", $5->value.valFuente);
 																																printf("B_Detecté una oper agregaatrr\n");
-																																	verificaTiposYAsigna($1, $5);
+																																printf("El valor agregado fuente fue: %s <<<<<<<", $5->value.valFuente);*/
+																																verificaTiposYAsigna($1, $5);
 
 																																}
 |identificador '.' MODIFICAATRIBUTO '(' especificaciones ')'		{
-																																		printf("B_Detecté una oper modificaAttr\n");
+																																		//printf("B_Detecté una oper modificaAttr\n");
 																																		verificaTiposYAsigna($1, $5);
 																																}
 |identificador '.' CLONAATRIBUTO '(' identificador ',' ATTR ')'	
 ;
 
 especificaciones:
-ATTR '=' valor	{ 
+ATTR '=' valor	{
+	//printf("165 especificaciones") ;
 	auxiliarConteo++;
 	switch( $1 ){
 		case FUENTE:
 			if($3->tipo == 1){
-				//printf("Tipo de valor: %d\n", $3->tipo);
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
 				strcpy (s->value.valFuente,$3->valorStr);
 				$$ = s;
@@ -180,7 +182,7 @@ ATTR '=' valor	{
 		case TAMANHO:
 			if ($3->tipo == 1){
 				s = creaSimbolAux(auxiliarConteo, TEXTO);
-				strcpy (s->value.valTamanho,$3->valorStr);
+				s->value.valTamanho = $3->valorInt;
 				$$ = s;
 			}
 			else{
@@ -189,7 +191,7 @@ ATTR '=' valor	{
 		break;
 		case FONDO:
 			s = creaSimbolAux(auxiliarConteo, CAJA_Y_TABLA);
-			strcpy (s->value.valFondo, $3->valorStr);
+			s->value.valFondo, $3->valorInt;
 			 //Para cajas y tablas.
 			$$ = s;
 		break;
@@ -212,7 +214,7 @@ ATTR '=' valor	{
 		break;
 		case COLORVISTO:
 			s = creaSimbolAux(auxiliarConteo, HIPERVINCULO);
-			strcpy (s->value.valColorVista, $3->valorStr);
+			s->value.valColorVista, $3->valorInt;
 			$$ = s;
 		break;
 		case MARGEN:
@@ -227,7 +229,7 @@ ATTR '=' valor	{
 		break;
 		case COLOR:
 			s = creaSimbolAux(auxiliarConteo, CAJA_TABLA_TEXTO_LISTA_HIPERV);
-			strcpy (s->value.color, $3->valorStr);
+			s->value.color, $3->valorInt;
 			$$ = s;
 		break;
 		case ANCHO:
@@ -247,9 +249,6 @@ ATTR '=' valor	{
 			s->value.valBorde = $3->valorInt;
 			//Para cajas y tablas.
 			$$ = s;
-		break;
-		default:
-			$$ = NULL;
 		break;
 	}
  }
@@ -303,20 +302,21 @@ int main (int argc, char const* argv[])
 
 
 void verificaTiposYAsigna(symrec *a, symrec *b){
-	if(a){
+	//printf("Llega a verificaTipos y Asigna");
 		if(a->type == b->type){
 			incluyeNuevaPropiedad(a, b);
-			printf("Se supone que se añadió el nuevo atributo");
+			//printf("Se supone que se añadió el nuevo atributo");
 		}
-		else if((b->type == CAJA_Y_TABLA || b->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA || a->type == IMAGEN) ){
+		else if((b->type == CAJA_Y_TABLA || b->type==CAJA_TABLA_TEXTO_LISTA_HIPERV) && (a->type == CAJA || a->type==TABLA || a->type==IMAGEN) ){
+
 			incluyeNuevaPropiedad(a, b);
-			printf("Se supone que se añadió UN nuevo atributo");
+			//printf("Se supone que se añadió UN nuevo atributo");
 		}
 		else{
 			printf("AttributeError: Tipos de dato incompatibles: %d y %d\n\n", a->type, b->type);
 		}
-	}
-	else{
+
+	/*else{
 		printf("Variable no declarada");
-	}
+	}*/
 }
